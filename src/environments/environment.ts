@@ -5,13 +5,13 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: "AIzaSyDEgWHCgvZA2rFTghDqUUxPtCuZzxSP62s",
-    authDomain: "siscal.firebaseapp.com",
-    databaseURL: "https://siscal.firebaseio.com",
-    projectId: "siscal",
-    storageBucket: "siscal.appspot.com",
-    messagingSenderId: "240883731738",
-    appId: "1:240883731738:web:185144c26ad98ff2"
+    apiKey: "AIzaSyD4ESlOeV1xdCi4gyPeWl4Q74HKqHdmL9g",
+    authDomain: "siscal-c2f29.firebaseapp.com",
+    databaseURL: "https://siscal-c2f29.firebaseio.com",
+    projectId: "siscal-c2f29",
+    storageBucket: "siscal-c2f29.appspot.com",
+    messagingSenderId: "438055430876",
+    appId: "1:438055430876:web:8db0a98a91518ccc"
   }
 };
 

@@ -9,16 +9,19 @@ export class FirebaseService {
 
   constructor(public db: AngularFirestore) {}
 
-  createUser(value){
+  createUser(obj){
 
-    return this.db.collection('Prueba').add({
-      Descripcion: value.descripcion,
+    return this.db.collection('usuarios').add({
+      Nombres: obj.Nombres,
+      Apellidos: obj.Apellidos,
+      Alias: obj.Apellidos,
+      Estado: obj.Estado,
     });
   }
 
   getUsers(){
     return new Promise<any>((resolve, reject) => {
-      this.db.collection('/Prueba').snapshotChanges()
+      this.db.collection('/usuarios').snapshotChanges()
       .subscribe(snapshots => {
         resolve(snapshots)
       })
