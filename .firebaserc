@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "siscal"
+    "default": "siscal",
+    "siscal-c2f29": "siscal-c2f29"
   }
 }
