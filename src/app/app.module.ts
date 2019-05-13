@@ -13,9 +13,7 @@ require('highcharts/modules/exporting')(Highcharts);
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { RNCComponent } from './components/procesos/registronoconformidades/rnc/rnc.component';
 import { ListaProyectosComponent } from './components/lista-proyectos/lista-proyectos.component';
-import { ListaproyectosComponent } from './components/listaproyectos/listaproyectos.component';
 import { ListadoRncComponent } from './components/procesos/registroNoConformidad/listado-rnc/listado-rnc.component';
 import { FormularioRncComponent } from './components/procesos/registroNoConformidad/formulario-rnc/formulario-rnc.component';
 
@@ -23,9 +21,7 @@ import { FormularioRncComponent } from './components/procesos/registroNoConformi
   declarations: [
     AppComponent,
     LoginComponent,
-    RNCComponent,
     ListaProyectosComponent,
-    ListaproyectosComponent,
     ListadoRncComponent,
     FormularioRncComponent
   ],
