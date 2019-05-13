@@ -7,7 +7,7 @@ import { FirebaseService} from '../../services/firebase.service';
   styleUrls: ['./login.component.sass']
 })
 export class LoginComponent implements OnInit {
-
+  hide = true;
   items: Array<any>;
 
   constructor(public fire:FirebaseService) { }
@@ -18,5 +18,7 @@ export class LoginComponent implements OnInit {
       this.items = result;
     })
   }
+
+  
 
 }

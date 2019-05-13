@@ -1,19 +1,18 @@
-<br>
-<div class="list-group users-list">
-	<div *ngFor="let item of items" class="list-group-item list-group-item-action flex-column align-items-start">
-		<div class="row">
-			<div class="col col-md-12 text-col">
-				<div class="mb-1"><strong>
-          {{item.payload.doc.data().Nombres}} 
-          
-          {{item.payload.doc.data().Apellidos}}
-         
-          {{item.payload.doc.data().Alias}}
 
-          {{item.payload.doc.data().Estado}}
-				</strong>
-				</div>
-			</div>
-		</div>
-	</div>
+<div layout="column" class="loginBox md-whiteframe-z1">
+  <div class="login-container">
+      <mat-toolbar color="primary">
+          <h2 class="md-toolbar-tools">
+            <span>Iniciar Sesión</span>
+          </h2>
+      </mat-toolbar>
+    <mat-form-field>
+        <input matInput placeholder="Usuario" type="text">
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+  </div>
 </div>

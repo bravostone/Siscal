@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RNCComponent } from './rnc.component';
+import { FormularioRncComponent } from './formulario-rnc.component';
 
-describe('RNCComponent', () => {
-  let component: RNCComponent;
-  let fixture: ComponentFixture<RNCComponent>;
+describe('FormularioRncComponent', () => {
+  let component: FormularioRncComponent;
+  let fixture: ComponentFixture<FormularioRncComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RNCComponent ]
+      declarations: [ FormularioRncComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RNCComponent);
+    fixture = TestBed.createComponent(FormularioRncComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
