@@ -16,6 +16,7 @@ import { LoginComponent } from './components/login/login.component';
 import { ListaProyectosComponent } from './components/lista-proyectos/lista-proyectos.component';
 import { ListadoRncComponent } from './components/procesos/registroNoConformidad/listado-rnc/listado-rnc.component';
 import { FormularioRncComponent } from './components/procesos/registroNoConformidad/formulario-rnc/formulario-rnc.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FormularioRncComponent } from './components/procesos/registroNoConformi
     BrowserModule,
     AppMaterialModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ],
   providers: [
     FirebaseService,

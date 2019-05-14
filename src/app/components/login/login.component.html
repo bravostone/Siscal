@@ -10,14 +10,14 @@
               </h2>
           </mat-toolbar>
         <mat-form-field>
-            <input matInput placeholder="Usuario" type="text">
+            <input  matInput placeholder="Usuario" type="text" [(ngModel)]="loginModel.usuario">
             <mat-icon matSuffix>person</mat-icon>
           </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
+          <input matInput [(ngModel)]="loginModel.contrasena" name="contrasena" placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
-        <button mat-raised-button color="warn">Ingresar</button>
+        <button mat-raised-button color="warn" (click)= "login(loginModel)">Ingresar</button>
       </div>
   </mat-card>
 </div>
