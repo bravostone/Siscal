@@ -1,6 +1,13 @@
-<p>
-  lista-proyectos works!
-  <!-- console.log("Bienvenido " + this.items[0].payload.doc.data().Nombres + " " + this.items[0].payload.doc.data().Apellidos); -->
-</p>
-
-<p>Session ID: {{ sessionId | async }}</p>
+<br>
+<mat-list>
+        <mat-list-item *ngFor="let proyecto of listaProyecto" style="margin-bottom: 30px">
+          <button mat-list-item (click)="chooseProject()">
+            <h3 matLine> {{proyecto.payload.doc.data().CodigoProyecto}} - {{proyecto.payload.doc.data().NombreProyecto}}</h3>
+            <p matLine>
+              <span><strong>División :</strong> {{proyecto.payload.doc.data().Division}} </span>
+              <span><strong>Especialidad :</strong> {{proyecto.payload.doc.data().Especialidad}} </span>
+            </p>
+         </button>
+        </mat-list-item>
+        <br>
+</mat-list>

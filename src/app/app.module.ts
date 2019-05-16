@@ -12,16 +12,18 @@ require('highcharts/modules/exporting')(Highcharts);
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent,DialogContent } from './components/login/login.component';
 import { ListaProyectosComponent } from './components/lista-proyectos/lista-proyectos.component';
 import { ListadoRncComponent } from './components/procesos/registroNoConformidad/listado-rnc/listado-rnc.component';
 import { FormularioRncComponent } from './components/procesos/registroNoConformidad/formulario-rnc/formulario-rnc.component';
 import { FormsModule } from '@angular/forms';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    DialogContent,
     ListaProyectosComponent,
     ListadoRncComponent,
     FormularioRncComponent
@@ -33,8 +35,9 @@ import { FormsModule } from '@angular/forms';
     AppMaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
   ],
+  entryComponents: [LoginComponent, DialogContent],
   providers: [
     FirebaseService,
     AppRoutingModule,
