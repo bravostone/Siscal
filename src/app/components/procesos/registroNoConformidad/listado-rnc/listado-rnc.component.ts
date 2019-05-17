@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { RegistroNoConformidadService } from '../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service';
+import { MatTableDataSource,MatSort,MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-listado-rnc',
@@ -7,9 +9,42 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListadoRncComponent implements OnInit {
 
-  constructor() { }
+  constructor(private service: RegistroNoConformidadService) { }
 
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = ['Nro','Descripcion','Estatus','TipoReporte','EjecutorDanio','Area','Defecto'];
+  //,'NombreOriginador','HHTrabajo','TratamientoNoConformidad','FechaEmision'];
+
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchKey: string = "";
+  
   ngOnInit() {
+    this.service.getListado().then(result => {
+      let listaRnc = result.map(item => {
+        return {
+          $key: item.key,
+          ...item.payload.doc.data()
+        };
+      });
+
+      this.listData = new MatTableDataSource(listaRnc);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.filterPredicate = (data, filter) => {
+        return this.displayedColumns.some(ele => {
+          return ele != 'actions' && data[ele].toLowerCase().indexOf(filter) != -1;
+        });
+      };
+    });
+  }
+  
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter();
   }
 
+  applyFilter() {
+    this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
 }
