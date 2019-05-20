@@ -7,7 +7,7 @@ import {ListadoRncComponent} from './components/procesos/registroNoConformidad/l
 
 const routes: Routes = [
   {path: 'login',component: LoginComponent},
-  {path: 'listado-rnc',component: ListadoRncComponent},
+  {path: 'listado-rnc/:codigoProyecto',component: ListadoRncComponent},
   {path: 'lista-proyectos',component: ListaProyectosComponent},
   {path: '',pathMatch: 'full', redirectTo: 'login'}
   ];

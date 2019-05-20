@@ -10,9 +10,9 @@ export class RegistroNoConformidadService {
     firebase.firestore.settings({ timestampsInSnapshots: true });
   }
 
-  getListado() {
+  getListado(request) {
    var lista=  new Promise<any>((resolve, reject) => {
-      this.firebase.collection('/rnc').snapshotChanges()
+      this.firebase.collection('/rnc',ref => ref.where('CodigoProyecto', '==', request.CodigoProyecto)).snapshotChanges()
       .subscribe(snapshots => {
         resolve(snapshots)
       })

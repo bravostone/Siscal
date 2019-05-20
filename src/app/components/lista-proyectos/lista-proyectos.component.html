@@ -1,18 +1,18 @@
 <mat-toolbar color="primary">
-  <h2 class="md-toolbar-tools">
-    <span>Menú</span>
-  </h2>
+    <h2 class="md-toolbar-tools">
+        <span>Menú</span>
+    </h2>
 </mat-toolbar>
 <br>
 <mat-list>
-        <mat-list-item *ngFor="let proyecto of listaProyecto" style="margin-bottom: 30px">
-          <button mat-list-item (click)="chooseProject()">
+    <mat-list-item *ngFor="let proyecto of listaProyecto" style="margin-bottom: 30px">
+        <button mat-list-item (click)="chooseProject(proyecto.payload.doc.data().CodigoProyecto)">
             <h3 matLine> {{proyecto.payload.doc.data().CodigoProyecto}} - {{proyecto.payload.doc.data().NombreProyecto}}</h3>
             <p matLine>
               <span><strong>División :</strong> {{proyecto.payload.doc.data().Division}} </span>
               <span><strong>Especialidad :</strong> {{proyecto.payload.doc.data().Especialidad}} </span>
             </p>
          </button>
-        </mat-list-item>
-        <br>
+    </mat-list-item>
+    <br>
 </mat-list>

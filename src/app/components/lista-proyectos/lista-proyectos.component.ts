@@ -29,8 +29,8 @@ export class ListaProyectosComponent implements OnInit {
     })
   }
 
-  chooseProject(){
-    this.router.navigate(['/listado-rnc']);
+  chooseProject(codigoProyecto: string){
+    this.router.navigate(['/listado-rnc', codigoProyecto]);
   }
 
 }
