@@ -3,6 +3,7 @@ import { RegistroNoConformidadService } from '../../../../services/procesos/regi
 import { MatTableDataSource,MatSort,MatPaginator } from '@angular/material';
 import { RegistroNoConformidad } from '../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad'
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listado-rnc',
@@ -11,12 +12,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ListadoRncComponent implements OnInit {
   rncModel : RegistroNoConformidad = {};
-  constructor(private service: RegistroNoConformidadService, private _activate_route:ActivatedRoute) {
+  constructor(private service: RegistroNoConformidadService, private _activate_route:ActivatedRoute, private router: Router) {
    }
 
   listData: MatTableDataSource<any>;
-  // displayedColumns: string[] = ['Nro','Descripcion','Estatus','TipoReporte','EjecutorDanio','Area','Defecto'];
-  displayedColumns: string[] = ['Nro','Descripcion','Estatus','TipoReporte','EjecutorDanio','Area','Defecto','NombreOriginador','HHTrabajo','TratamientoNoConformidad'];
+  displayedColumns: string[] = ['Nro','Estatus','TipoReporte','Defecto','actions'];
+  // displayedColumns: string[] = ['Nro','Descripcion','Estatus','TipoReporte','EjecutorDanio','Area','Defecto','NombreOriginador','HHTrabajo','TratamientoNoConformidad','actions'];
   //,'FechaEmision'];
 
   @ViewChild(MatSort) sort: MatSort;
@@ -51,5 +52,9 @@ export class ListadoRncComponent implements OnInit {
 
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  nuevoRnc(nroRnc: string = ""){
+    this.router.navigate(['/formulario-rnc', this.rncModel.CodigoProyecto, nroRnc]);
   }
 }

@@ -1,24 +1,30 @@
-<!-- <div class="head">
-  <img src="../../../assets/GyM.png" alt="" style="width: 38%">
-</div> -->
-<div class="main-div" style="background:#f8f8f8">
-    <mat-card style="width: 28%">
-        <div class="login-container">
-            <mat-toolbar color="warn">
-                <h2 class="md-toolbar-tools">
-                    <span>SISCAL</span>
-                </h2>
-            </mat-toolbar>
-            <mat-form-field>
-                <input matInput placeholder="Usuario" type="text" [(ngModel)]="loginModel.usuario">
-                <mat-icon matSuffix>person</mat-icon>
-            </mat-form-field>
-            <mat-form-field>
-                <input matInput [(ngModel)]="loginModel.contrasena" name="contrasena" placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
-                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-            </mat-form-field>
-            <button mat-stroked-button color="warn" (click)="login(loginModel)"><b>Ingresar</b></button>
-            <!-- <button mat-raised-button color="primary" (click)="login(loginModel)"><b>Ingresar</b></button> -->
+<html>
+
+<body>
+    <div class="form-wraper">
+        <div class="form-container card">
+            <div class="form-header" color="warn">
+                <h2>SISCAL</h2>
+                <!-- <img src="./../../assets/car-key.svg"  class="main-lock-icon" alt=""> -->
+            </div>
+            <div class="form-body">
+                <mat-form-field class="justifier">
+                    <input matInput placeholder="Usuario" type="text" class="form-input" [(ngModel)]="loginModel.usuario">
+                    <mat-icon matSuffix>person</mat-icon>
+                    <!-- <input matInput placeholder="Email" text="email" class="form-input"> -->
+                </mat-form-field>
+                <mat-form-field class="justifier">
+                    <input matInput class="form-input" [(ngModel)]="loginModel.contrasena" name="contrasena" placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <!-- <input matInput placeholder="Password" text="password" class="form-input"> -->
+                </mat-form-field>
+            </div>
+
+            <div class="form-footer">
+                <button mat-stroked-button color="warn" (click)="login(loginModel)"><mat-icon>input</mat-icon>Ingresar</button>
+            </div>
         </div>
-    </mat-card>
-</div>
+    </div>
+</body>
+
+</html>

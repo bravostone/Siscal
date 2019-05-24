@@ -15,31 +15,31 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>RNC-Nro.</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.Nro}}</mat-cell>
             </ng-container>
-            <ng-container matColumnDef="Descripcion">
+            <!-- <ng-container matColumnDef="Descripcion">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'">Descripción</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customWidthClass'">{{element.Descripcion}}</mat-cell>
-            </ng-container>
+            </ng-container> -->
             <ng-container matColumnDef="Estatus">
-                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Estatus</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.Estatus}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="TipoReporte">
-                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customSmallWidthClass'">Tipo de Reporte</mat-header-cell>
-                <mat-cell *matCellDef="let element" [ngClass]="'customSmallWidthClass'">{{element.TipoReporte}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Reporte</mat-header-cell>
+                <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.TipoReporte}}</mat-cell>
             </ng-container>
-            <ng-container matColumnDef="EjecutorDanio">
+            <!-- <ng-container matColumnDef="EjecutorDanio">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Ejecutor de Daño</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.EjecutorDanio}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="Area">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Área</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.Area}}</mat-cell>
-            </ng-container>
+            </ng-container> -->
             <ng-container matColumnDef="Defecto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Defecto</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Defecto</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.Defecto}}</mat-cell>
             </ng-container>
-            <ng-container matColumnDef="NombreOriginador">
+            <!-- <ng-container matColumnDef="NombreOriginador">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Originador QC</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.NombreOriginador}}</mat-cell>
             </ng-container>
@@ -50,18 +50,20 @@
             <ng-container matColumnDef="TratamientoNoConformidad">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customCell'">Tratamiento de la No Conformidad</mat-header-cell>
                 <mat-cell *matCellDef="let element" [ngClass]="'customCell'">{{element.TratamientoNoConformidad}}</mat-cell>
-            </ng-container>
+            </ng-container> -->
             <!-- <ng-container matColumnDef="FechaEmision">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Emisión</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{ element.FechaEmision | date:"dd/MMM/yyyy"}}</mat-cell>
             </ng-container> -->
             <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <button mat-icon-button><mat-icon>launch</mat-icon></button>
+                    <button mat-icon-button><mat-icon>info</mat-icon></button>
+                    <button mat-icon-button (click)="nuevoRnc(row.Nro)"><mat-icon>launch</mat-icon></button>
                     <button mat-icon-button color="warn"><mat-icon>delete_outline</mat-icon></button>
                 </mat-cell>
             </ng-container>
+
             <ng-container matColumnDef="loading">
                 <mat-footer-cell *matFooterCellDef colspan="6">
                     Loading data...
@@ -80,3 +82,4 @@
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>
 </div>
+<button mat-fab color="warn" class="buttonFlotante" (click)="nuevoRnc()">+</button>
