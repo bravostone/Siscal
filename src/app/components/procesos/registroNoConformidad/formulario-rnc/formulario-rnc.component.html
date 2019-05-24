@@ -1,3 +1,70 @@
-<p>
-  formulario-rnc works!
-</p>
+<app-navbar-menu></app-navbar-menu>
+<br />
+<div class="example-container">
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.Area" placeholder="Área">
+            <mat-option *ngFor="let area of ListaArea" [value]="area">
+                {{ area }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.Defecto" placeholder="Defecto">
+            <mat-option *ngFor="let defecto of ListaDefecto" [value]="defecto">
+                {{ defecto }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <textarea [(ngModel)]="rncModel.Descripcion" matInput placeholder="Descripción"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.EjecutorDanio" placeholder="Ejecutor de Daño">
+            <mat-option *ngFor="let ejecutor of ListaEjecutorDanio" [value]="ejecutor">
+                {{ ejecutor }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.Estatus" placeholder="Estatus">
+            <mat-option *ngFor="let estatus of ListaStatus" [value]="estatus">
+                {{ estatus }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput [(ngModel)]="rncModel.FechaEmision" [matDatepicker]="picker" placeholder="Fecha de Emisión" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input matInput [(ngModel)]="rncModel.HHTrabajo" placeholder="Horas de Trabajo" type="number" />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.NombreOriginador" placeholder="Nombre de Originador">
+            <mat-option *ngFor="let originador of ListaNombreOriginador" [value]="originador">
+                {{ originador }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <textarea [(ngModel)]="rncModel.Observaciones" matInput placeholder="Observaciones"></textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.TipoReporte" placeholder="Tipo de Reporte">
+            <mat-option *ngFor="let tipoReporte of ListaTipoReporte" [value]="tipoReporte">
+                {{ tipoReporte }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="rncModel.TratamientoNoConformidad" placeholder="Tratamiento de No Conformidad">
+            <mat-option *ngFor="let tratamiento of ListaTratamientoNoConformidad" [value]="tratamiento">
+                {{ tratamiento }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div>
+    <button mat-fab color="primary" (click)="Grabar(rncModel)">Grabar</button>
+</div>

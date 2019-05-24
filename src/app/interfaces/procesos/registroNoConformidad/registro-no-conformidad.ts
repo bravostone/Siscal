@@ -10,5 +10,6 @@ export interface RegistroNoConformidad {
     HHTrabajo?      : number,
     TratamientoNoConformidad?: string
     FechaEmision?   : Date,
-    CodigoProyecto? : string
+    CodigoProyecto? : string,
+    Observaciones?  : string
 }
