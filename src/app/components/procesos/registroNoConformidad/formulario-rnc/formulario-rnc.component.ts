@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
-import { MatTableDataSource, MatSort, MatPaginator, MatButton } from "@angular/material";
+import {
+  MatTableDataSource,
+  MatSort,
+  MatPaginator,
+  MatButton
+} from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 
@@ -93,10 +98,17 @@ export class FormularioRncComponent implements OnInit {
     private _activate_route: ActivatedRoute
   ) {}
 
-  ngOnInit() {}
-
-  Grabar(){
+  ngOnInit() {
     debugger;
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
+    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
+  }
+
+  Grabar() {
+    debugger;
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
+    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
     console.log(this.rncModel);
+    this.service.createRNC(this.rncModel).then(result => {});
   }
 }

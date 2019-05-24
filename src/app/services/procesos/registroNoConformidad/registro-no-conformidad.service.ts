@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { RegistroNoConformidad } from '../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,23 @@ export class RegistroNoConformidadService {
       })
     })
     return lista;
+  }
+
+  createRNC(obj:RegistroNoConformidad){
+    return this.firebase.collection('rnc').add({
+      Area: obj.Area,
+      CodigoProyecto: obj.CodigoProyecto,
+      Defecto: obj.Defecto,
+      Estado: obj.Descripcion,
+      EjecutorDanio: obj.EjecutorDanio,
+      Estatus: obj.Estatus,
+      FechaEmision: obj.FechaEmision,
+      HHTrabajo: obj.HHTrabajo,
+      NombreOriginador: obj.NombreOriginador,
+      Nro: obj.Nro,
+      Observaciones: obj.Observaciones,
+      TipoReporte: obj.TipoReporte,
+      TratamientoNoConformidad: obj.TratamientoNoConformidad
+    });
   }
 }
