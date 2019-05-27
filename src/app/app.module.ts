@@ -19,6 +19,9 @@ import { FormularioRncComponent } from './components/procesos/registroNoConformi
 import { FormsModule } from '@angular/forms';
 import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.component'
 
+//Diseño de TOASTR
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,6 +40,7 @@ import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.compo
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [LoginComponent, DialogContent],
   providers: [
