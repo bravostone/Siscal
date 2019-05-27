@@ -17,7 +17,9 @@ import { ListaProyectosComponent } from './components/lista-proyectos/lista-proy
 import { ListadoRncComponent } from './components/procesos/registroNoConformidad/listado-rnc/listado-rnc.component';
 import { FormularioRncComponent } from './components/procesos/registroNoConformidad/formulario-rnc/formulario-rnc.component';
 import { FormsModule } from '@angular/forms';
-import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.component'
+import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.component';
+import { CapturarFotoComponent } from './components/examples/capturar-foto/capturar-foto.component';
+import { CapturaDinamicaComponent } from './components/examples/captura-dinamica/captura-dinamica.component'
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.compo
     ListaProyectosComponent,
     ListadoRncComponent,
     FormularioRncComponent,
-    NavbarMenuComponent
+    NavbarMenuComponent,
+    CapturarFotoComponent,
+    CapturaDinamicaComponent
   ],
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
