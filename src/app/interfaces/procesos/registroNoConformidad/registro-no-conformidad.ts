@@ -1,5 +1,6 @@
 export interface RegistroNoConformidad {
-    Nro?           : string,
+    Key?            : string,
+    Nro?            : string,
     Descripcion?    : string, 
     Estatus?        : string,
     TipoReporte?    : string,

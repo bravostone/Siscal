@@ -21,6 +21,9 @@ import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.compo
 import { CapturarFotoComponent } from './components/examples/capturar-foto/capturar-foto.component';
 import { CapturaDinamicaComponent } from './components/examples/captura-dinamica/captura-dinamica.component'
 
+//Diseño de TOASTR
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,6 +44,7 @@ import { CapturaDinamicaComponent } from './components/examples/captura-dinamica
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [LoginComponent, DialogContent],
   providers: [

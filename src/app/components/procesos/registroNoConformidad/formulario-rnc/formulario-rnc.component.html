@@ -52,8 +52,8 @@
     </mat-form-field>
     <mat-form-field>
         <mat-select [(ngModel)]="rncModel.TipoReporte" placeholder="Tipo de Reporte">
-            <mat-option *ngFor="let tipoReporte of ListaTipoReporte" [value]="tipoReporte">
-                {{ tipoReporte }}
+            <mat-option *ngFor="let tipoReporte of ListaTipoReporte" [value]="tipoReporte.codigo">
+                {{ tipoReporte.descripcion }}
             </mat-option>
         </mat-select>
     </mat-form-field>

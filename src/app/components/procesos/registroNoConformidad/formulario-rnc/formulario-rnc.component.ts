@@ -8,6 +8,8 @@ import {
 } from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
+import { Router } from "@angular/router";
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: "app-formulario-rnc",
@@ -16,7 +18,7 @@ import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroN
 })
 export class FormularioRncComponent implements OnInit {
   rncModel: RegistroNoConformidad = {};
-
+  nuevo: boolean = false;
   ListaArea = [
     "-- No Describe --",
     "Almacen",
@@ -42,10 +44,7 @@ export class FormularioRncComponent implements OnInit {
     "Cajoneo/Soplado",
     "Cangrejera"
   ];
-  ListaStatus = [
-    "Abierto", 
-    "Anulado", 
-    "Cerrado"];
+  ListaStatus = ["Abierto", "Anulado", "Cerrado"];
   ListaNombreOriginador = [
     "Abner Delgado Gomez",
     "Abrahan Ochante Tineo",
@@ -62,10 +61,10 @@ export class FormularioRncComponent implements OnInit {
     "Alberto Bermudez Monteyro"
   ];
   ListaTipoReporte = [
-    "No Conformidad",
-    "Producto No Conforme",
-    "Punch List",
-    "Reporte de Observaciones"
+    { codigo: "RNC", descripcion: "No Conformidad" },
+    { codigo: "PNC", descripcion: "Producto No Conforme" },
+    { codigo: "PL", descripcion: "Punch List" },
+    { codigo: "ROB", descripcion: "Reporte de Observaciones" }
   ];
   ListaTratamientoNoConformidad = [
     "-- No Describe --",
@@ -95,20 +94,40 @@ export class FormularioRncComponent implements OnInit {
 
   constructor(
     private service: RegistroNoConformidadService,
-    private _activate_route: ActivatedRoute
+    private _activate_route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    debugger;
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params[
+      "codigoProyecto"
+    ];
     this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
+
+    if (this.rncModel.Nro != "") {
+      this.nuevo = false;
+      this.service.getRegistro(this.rncModel).then(result => {
+        this.rncModel = result[0].payload.doc.data();
+        this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
+        console.log(this.rncModel);
+      });
+      //TODO: Obtener registro de FStore
+      //Pintar la info en la grilla
+    } else {
+      this.nuevo = true;
+    }    
   }
 
   Grabar() {
-    debugger;
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
-    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
-    console.log(this.rncModel);
-    this.service.createRNC(this.rncModel).then(result => {});
+     if (this.nuevo) {
+       this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
+       this.service.createRNC(this.rncModel).then(result => {});
+     } else {
+       this.service.editRNC(this.rncModel).then(result => {});
+     }
+
+    this.toastr.success('Registro exitoso','Mantenimiento exitoso.');
+    this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
   }
 }
