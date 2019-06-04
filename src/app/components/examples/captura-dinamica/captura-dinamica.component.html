@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <style>
+    <!-- <style>
         *, *.before, *:after {
             box-sizing:border-box;
         }
@@ -68,10 +68,18 @@
             height: 100%;
             fill: #f1e5e6;
         }
-    </style>
+    </style> -->
+
+    <style>
+            .thumb {
+                height: 75px;
+                border: 1px solid #000;
+                margin: 10px 5px 0 0;
+            }
+</style>
 </head>
 <body>
-    <div id="Selector">
+    <!-- <div id="Selector">
         <input type="file" name="foto" id="foto" class="SubirFoto" (change)="onFileSelected($event)"
               accept="image/*" capture="camera" />
         <label for="foto">
@@ -82,12 +90,8 @@
           </figure> 
           <span>Subir Foto</span>
         </label>
-    </div>
-    <canvas #canvas id="canvas" width="640" height="480"></canvas>
-        <ul>
-            <li *ngFor="let c of captures">
-                <img src="{{ c }}" height="100" />
-            </li>
-        </ul>
+    </div> -->
+        <input type="file" id="files" name="files[]" accept="image/*" capture="camera" multiple />
+        <output id="list"></output>
 </body>
 </html>

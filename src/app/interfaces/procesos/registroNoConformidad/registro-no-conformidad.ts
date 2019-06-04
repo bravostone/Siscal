@@ -14,3 +14,7 @@ export interface RegistroNoConformidad {
     CodigoProyecto? : string,
     Observaciones?  : string
 }
+
+export interface Image {
+	image: string;
+}
