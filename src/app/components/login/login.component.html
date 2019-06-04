@@ -15,12 +15,10 @@
                 <mat-form-field class="justifier">
                     <input matInput placeholder="Usuario" type="text" class="form-input" [(ngModel)]="loginModel.usuario">
                     <mat-icon matSuffix>person</mat-icon>
-                    <!-- <input matInput placeholder="Email" text="email" class="form-input"> -->
                 </mat-form-field>
                 <mat-form-field class="justifier">
                     <input matInput class="form-input" [(ngModel)]="loginModel.contrasena" name="contrasena" placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    <!-- <input matInput placeholder="Password" text="password" class="form-input"> -->
                 </mat-form-field>
             </div>
 

@@ -91,7 +91,7 @@ export class FormularioRncComponent implements OnInit {
     "A.R Acabados Construcción EIRL",
     "AB7 S.A.C."
   ];
-
+  
   constructor(
     private service: RegistroNoConformidadService,
     private _activate_route: ActivatedRoute,
