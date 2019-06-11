@@ -11,6 +11,8 @@ import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroN
 import { Router } from "@angular/router";
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
+import {ImagenNoConformidadService} from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service'
+
 @Component({
   selector: "app-formulario-rnc",
   templateUrl: "./formulario-rnc.component.html",
@@ -96,8 +98,12 @@ export class FormularioRncComponent implements OnInit {
     private service: RegistroNoConformidadService,
     private _activate_route: ActivatedRoute,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private firebaseStorage: ImagenNoConformidadService
   ) {}
+
+  public datosFormulario = new FormData();
+  public URLPublica = '';
 
   ngOnInit() {
     document.getElementById('files').addEventListener('change', this.onFileSelected, false);
@@ -163,5 +169,24 @@ export class FormularioRncComponent implements OnInit {
           reader.readAsDataURL(f);
         }  
      }
+   }
+
+   subirImagen(nombreArchivo){
+
+      let archivo    = this.datosFormulario.get('archivo');
+      let referencia = this.firebaseStorage.referenciaCloudStorage(nombreArchivo);
+      let tarea      = this.firebaseStorage.tareaCloudStorage(nombreArchivo, archivo);
+  
+      // //Cambia el porcentaje
+      // tarea.percentageChanges().subscribe((porcentaje) => {
+      //   this.porcentaje = Math.round(porcentaje);
+      //   if (this.porcentaje == 100) {
+      //     this.finalizado = true;
+      //   }
+      // });
+  
+      referencia.getDownloadURL().subscribe((URL) => {
+        this.URLPublica = URL;
+      });
    }
 }

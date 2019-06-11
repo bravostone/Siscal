@@ -6,6 +6,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AppMaterialModule } from '../app/Shared/app.material.module'
 import { FirebaseService } from './services/firebase.service';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import * as Highcharts from 'highcharts';
 require('highcharts/modules/exporting')(Highcharts);
@@ -20,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 import { NavbarMenuComponent } from '../app/Shared/navbar-menu/navbar-menu.component';
 import { CapturarFotoComponent } from './components/examples/capturar-foto/capturar-foto.component';
 import { CapturaDinamicaComponent } from './components/examples/captura-dinamica/captura-dinamica.component'
+
+import { ReactiveFormsModule } from '@angular/forms';
 
 //Diseño de TOASTR
 import { ToastrModule } from 'ngx-toastr';
@@ -39,11 +42,13 @@ import { ToastrModule } from 'ngx-toastr';
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
+    AngularFireStorageModule,
     BrowserModule,
     AppMaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot()
   ],
   entryComponents: [LoginComponent, DialogContent],
