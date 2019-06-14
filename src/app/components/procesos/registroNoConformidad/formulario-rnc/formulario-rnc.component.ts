@@ -1,17 +1,12 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
-import {
-  MatTableDataSource,
-  MatSort,
-  MatPaginator,
-  MatButton
-} from "@angular/material";
 import { ActivatedRoute } from "@angular/router";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import { Router } from "@angular/router";
-import { ToastrModule, ToastrService } from 'ngx-toastr';
-
+import { ToastrService } from 'ngx-toastr';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {ImagenNoConformidadService} from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service'
+import { DebugRenderer2 } from '@angular/core/src/view/services';
 
 @Component({
   selector: "app-formulario-rnc",
@@ -104,14 +99,14 @@ export class FormularioRncComponent implements OnInit {
 
   public datosFormulario = new FormData();
   public URLPublica = '';
+  public archivoForm = new FormGroup({
+  });
 
   ngOnInit() {
-    document.getElementById('files').addEventListener('change', this.onFileSelected, false);
-
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params[
-      "codigoProyecto"
-    ];
-    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
+    //document.getElementById('files').addEventListener('change', this.onFileSelected, false);
+    
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
+    this.rncModel.Nro            = this._activate_route.snapshot.params["codigoRNC"];
 
     if (this.rncModel.Nro != "") {
       this.nuevo = false;
@@ -127,8 +122,11 @@ export class FormularioRncComponent implements OnInit {
     }    
   }
 
-  Grabar() {
+  Grabar(rncModel,event) {
      if (this.nuevo) {
+      debugger;
+      //this.CargarImagen(event);
+
        this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
        this.service.createRNC(this.rncModel).then(result => {});
      } else {
@@ -137,13 +135,20 @@ export class FormularioRncComponent implements OnInit {
 
     this.toastr.success('Registro exitoso','Mantenimiento exitoso.');
     this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
+    
+   
   }
 
   onFileSelected(event) {
+    debugger;
     if(event.target.files.length > 0) 
      {
-       console.log(event.target.files[0].name);
-       var files = event.target.files; 
+       //console.log(event.target.files[0].name);
+        var files = event.target.files; 
+       
+        // this.firebaseStorage.referenciaCloudStorage().child('imagenes/' + files[0].name).put(files);
+        //this.firebaseStorage.referenciaCloudStorage(files[0].name);
+        this.firebaseStorage.tareaCloudStorage(files[0].name, files[0]);
 
          for (var i = 0, f; f = files[i]; i++) {
   
@@ -167,26 +172,21 @@ export class FormularioRncComponent implements OnInit {
     
           // Read in the image file as a data URL.
           reader.readAsDataURL(f);
-        }  
+        }
      }
    }
 
-   subirImagen(nombreArchivo){
+   CargarImagen(archivo){
+     debugger;
+    //this.firebaseStorage.referenciaCloudStorage().child('imagenes/' + archivo[0].name).put(archivo);
 
-      let archivo    = this.datosFormulario.get('archivo');
-      let referencia = this.firebaseStorage.referenciaCloudStorage(nombreArchivo);
-      let tarea      = this.firebaseStorage.tareaCloudStorage(nombreArchivo, archivo);
+      // let archivo    = this.datosFormulario.get('archivo');
+      // let referencia = this.firebaseStorage.referenciaCloudStorage(nombreArchivo);
+      // let tarea      = this.firebaseStorage.tareaCloudStorage(nombreArchivo, archivo);
   
-      // //Cambia el porcentaje
-      // tarea.percentageChanges().subscribe((porcentaje) => {
-      //   this.porcentaje = Math.round(porcentaje);
-      //   if (this.porcentaje == 100) {
-      //     this.finalizado = true;
-      //   }
+  
+      // referencia.getDownloadURL().subscribe((URL) => {
+      //   this.URLPublica = URL;
       // });
-  
-      referencia.getDownloadURL().subscribe((URL) => {
-        this.URLPublica = URL;
-      });
    }
 }
