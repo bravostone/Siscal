@@ -6,16 +6,33 @@ import { AngularFireStorage } from '@angular/fire/storage';
   })
   export class ImagenNoConformidadService {
 
-    constructor( private storage: AngularFireStorage) { 
+    constructor( public firebase: AngularFireStorage) { 
       }
 
       //Subir archivo
-      public tareaCloudStorage(nombreArchivo: string, datos: any) {
-        return this.storage.upload(nombreArchivo, datos);
-      }
+      public subirImagenStorage(nombreArchivo: string, datos: any) {
 
-      //Descargar del archivo
-      public referenciaCloudStorage(nombreArchivo: string) {
-        return this.storage.ref(nombreArchivo);
+        // Create a root reference
+        var storageRef = this.firebase.storage.ref();
+        // File or Blob named mountains.jpg
+        var file = datos;
+        // Create the file metadata
+        var metadata = {
+          contentType: 'image/jpeg'
+        };
+        // Upload file and metadata to the object
+          var uploadTask = storageRef.child('images/' + nombreArchivo).put(file, metadata);
+      };
+
+      public descargarImagenStorage(nombreArchivo) {
+        // Create a reference to the file we want to download
+        var starsRef = this.firebase.storage.ref().child('images/' + nombreArchivo);
+    
+        // Get the download URL
+        starsRef.getDownloadURL().then(function (url) {
+          // Insert url into an <img> tag to "download"
+          console.log(url);
+          return url;
+        })
       }
   }

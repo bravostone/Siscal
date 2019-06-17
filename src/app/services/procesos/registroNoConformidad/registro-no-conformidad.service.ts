@@ -32,7 +32,8 @@ export class RegistroNoConformidadService {
      //lista.key = item.payload.doc._key.path.segments[6];
      return lista;
    }
-  createRNC(obj:RegistroNoConformidad){
+  createRNC(obj:RegistroNoConformidad)
+  {
     return this.firebase.collection('rnc').add({
       Area: obj.Area,
       CodigoProyecto: obj.CodigoProyecto,
@@ -46,7 +47,8 @@ export class RegistroNoConformidadService {
       Nro: obj.Nro,
       Observaciones: obj.Observaciones,
       TipoReporte: obj.TipoReporte,
-      TratamientoNoConformidad: obj.TratamientoNoConformidad
+      TratamientoNoConformidad: obj.TratamientoNoConformidad,
+      ListaImagenes: obj.ListaImagenes,
     });
   }
 

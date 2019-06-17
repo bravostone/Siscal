@@ -12,7 +12,8 @@ export interface RegistroNoConformidad {
     TratamientoNoConformidad?: string
     FechaEmision?   : Date,
     CodigoProyecto? : string,
-    Observaciones?  : string
+    Observaciones?  : string,
+    ListaImagenes?   : Array<any>,
 }
 
 export interface Image {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {ListaProyectosService} from '../../services/listaProyectos/lista-proyectos.service';
 import { Router } from '@angular/router';
+import {ListaProyectosService} from '../../services/listaProyectos/lista-proyectos.service';
+
 
 @Component({
   selector: 'app-lista-proyectos',
@@ -14,6 +15,7 @@ export class ListaProyectosComponent implements OnInit {
   constructor( 
       private lista: ListaProyectosService,
       private router: Router,
+
   ) { }
 
   ngOnInit() {

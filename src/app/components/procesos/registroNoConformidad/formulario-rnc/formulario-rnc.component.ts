@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
 import { ActivatedRoute } from "@angular/router";
-import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+
+import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
+import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import {ImagenNoConformidadService} from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service'
-import { DebugRenderer2 } from '@angular/core/src/view/services';
 
 @Component({
   selector: "app-formulario-rnc",
@@ -14,6 +13,7 @@ import { DebugRenderer2 } from '@angular/core/src/view/services';
   styleUrls: ["./formulario-rnc.component.sass"]
 })
 export class FormularioRncComponent implements OnInit {
+
   rncModel: RegistroNoConformidad = {};
   nuevo: boolean = false;
   ListaArea = [
@@ -88,7 +88,7 @@ export class FormularioRncComponent implements OnInit {
     "A.R Acabados Construcción EIRL",
     "AB7 S.A.C."
   ];
-  
+
   constructor(
     private service: RegistroNoConformidadService,
     private _activate_route: ActivatedRoute,
@@ -97,67 +97,65 @@ export class FormularioRncComponent implements OnInit {
     private firebaseStorage: ImagenNoConformidadService
   ) {}
 
-  public datosFormulario = new FormData();
-  public URLPublica = '';
-  public archivoForm = new FormGroup({
-  });
+  listImage : Array<any>;
+  listURL   : Array<any>;
 
   ngOnInit() {
-    //document.getElementById('files').addEventListener('change', this.onFileSelected, false);
-    
+
     this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
     this.rncModel.Nro            = this._activate_route.snapshot.params["codigoRNC"];
 
     if (this.rncModel.Nro != "") {
-      this.nuevo = false;
-      this.service.getRegistro(this.rncModel).then(result => {
+        this.nuevo = false;
+        this.service.getRegistro(this.rncModel).then(result => {
         this.rncModel = result[0].payload.doc.data();
         this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
-        console.log(this.rncModel);
       });
       //TODO: Obtener registro de FStore
       //Pintar la info en la grilla
     } else {
       this.nuevo = true;
-    }    
+    }
   }
 
-  Grabar(rncModel,event) {
+  Grabar(rncModel) {
      if (this.nuevo) {
-      debugger;
-      //this.CargarImagen(event);
 
-       this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
-       this.service.createRNC(this.rncModel).then(result => {});
-     } else {
-       this.service.editRNC(this.rncModel).then(result => {});
+       //Subimos las imagenes
+      this.SubirImagen(this.listImage);
+      //Seteamos número.
+      this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
+      //Seteamos ListaImagenes.
+      this.rncModel.ListaImagenes = this.listImage;
+      //Llamamos al método guardar.
+      this.service.createRNC(this.rncModel).then(result => {});
+     }
+     else {
+      this.service.editRNC(this.rncModel).then(result => {});
      }
 
     this.toastr.success('Registro exitoso','Mantenimiento exitoso.');
     this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
-    
-   
+
+
   }
 
   onFileSelected(event) {
-    debugger;
-    if(event.target.files.length > 0) 
+
+    if(event.target.files.length > 0)
      {
-       //console.log(event.target.files[0].name);
-        var files = event.target.files; 
-       
-        // this.firebaseStorage.referenciaCloudStorage().child('imagenes/' + files[0].name).put(files);
-        //this.firebaseStorage.referenciaCloudStorage(files[0].name);
-        this.firebaseStorage.tareaCloudStorage(files[0].name, files[0]);
+       debugger;
+        var files = event.target.files;
+        this.listImage = files;
 
          for (var i = 0, f; f = files[i]; i++) {
-  
+
           // Only process image files.
           if (!f.type.match('image.*')) {
             continue;
           }
           var reader = new FileReader();
-  
+
           // Closure to capture the file information.
           reader.onload = (function(theFile) {
             return function(e) {
@@ -165,28 +163,33 @@ export class FormularioRncComponent implements OnInit {
               var span = document.createElement('span');
               span.innerHTML = ['<img style="width: 120px;" class="thumb" src="', e.target.result,
                                 '" title="', escape(theFile.name), '"/>'].join('');
-                                
+
               document.getElementById('list').insertBefore(span, null);
             };
           })(f);
-    
+
           // Read in the image file as a data URL.
           reader.readAsDataURL(f);
         }
      }
    }
 
-   CargarImagen(archivo){
-     debugger;
-    //this.firebaseStorage.referenciaCloudStorage().child('imagenes/' + archivo[0].name).put(archivo);
+   SubirImagen(listImage){
+      for (let index = 0; index < listImage.length; index++) {
+        this.firebaseStorage.subirImagenStorage(listImage[index].name, listImage[index]);
+      }
+   }
 
-      // let archivo    = this.datosFormulario.get('archivo');
-      // let referencia = this.firebaseStorage.referenciaCloudStorage(nombreArchivo);
-      // let tarea      = this.firebaseStorage.tareaCloudStorage(nombreArchivo, archivo);
-  
-  
-      // referencia.getDownloadURL().subscribe((URL) => {
-      //   this.URLPublica = URL;
-      // });
+   DescargarImagen(listImage){
+      for (let index = 0; index < listImage.length; index++) {
+        var url = this.firebaseStorage.descargarImagenStorage(listImage[index].name);
+
+        this.listURL.push(url);
+        console.log(this.listURL);
+      }
+      debugger;
+      console.log('url lista final:' + this.listURL);
+      return this.listURL;
+    
    }
 }
