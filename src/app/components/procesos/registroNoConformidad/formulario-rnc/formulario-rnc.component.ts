@@ -3,6 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 
+import { Image } from '../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad';
 import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import {ImagenNoConformidadService} from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service'
@@ -89,6 +90,12 @@ export class FormularioRncComponent implements OnInit {
     "AB7 S.A.C."
   ];
 
+  //listURL   : Array<Image>;
+  listImage : Array<any>;
+
+  //listURL = [Image]
+
+
   constructor(
     private service: RegistroNoConformidadService,
     private _activate_route: ActivatedRoute,
@@ -97,30 +104,36 @@ export class FormularioRncComponent implements OnInit {
     private firebaseStorage: ImagenNoConformidadService
   ) {}
 
-  listImage : Array<any>;
-  listURL   : Array<any>;
-
   ngOnInit() {
 
     this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
     this.rncModel.Nro            = this._activate_route.snapshot.params["codigoRNC"];
 
+    //Si una edición
     if (this.rncModel.Nro != "") {
         this.nuevo = false;
-        this.service.getRegistro(this.rncModel).then(result => {
-        this.rncModel = result[0].payload.doc.data();
-        this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
-      });
-      //TODO: Obtener registro de FStore
-      //Pintar la info en la grilla
-    } else {
+        this.service.getRegistro(this.rncModel).then(
+          result => {
+                      this.rncModel     = result[0].payload.doc.data();
+                      this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
+                      
+                      debugger;
+                      let lista = this.DescargarImagen(this.rncModel.ListaImagenes);
+                      debugger;
+                      //this.CargarImagen(lista);
+
+                    });
+      
+}
+    //si es nuevo 
+    else {
       this.nuevo = true;
     }
   }
 
   Grabar(rncModel) {
      if (this.nuevo) {
-
+      debugger;
        //Subimos las imagenes
       this.SubirImagen(this.listImage);
       //Seteamos número.
@@ -140,11 +153,10 @@ export class FormularioRncComponent implements OnInit {
 
   }
 
-  onFileSelected(event) {
+  SeleccionarImagen(event) {
 
     if(event.target.files.length > 0)
      {
-       debugger;
         var files = event.target.files;
         this.listImage = files;
 
@@ -181,15 +193,52 @@ export class FormularioRncComponent implements OnInit {
    }
 
    DescargarImagen(listImage){
-      for (let index = 0; index < listImage.length; index++) {
-        var url = this.firebaseStorage.descargarImagenStorage(listImage[index].name);
+      
+    let listURL   : Array<string>
 
-        this.listURL.push(url);
-        console.log(this.listURL);
+      for (let index = 0; index < listImage.length; index++) {
+        
+        let url = this.firebaseStorage.descargarImagenStorage(listImage[index].name);
+        // debugger;
+        
+        //listURL.push(url);
       }
-      debugger;
-      console.log('url lista final:' + this.listURL);
-      return this.listURL;
+     
+      return listURL;
     
+   }
+
+   CargarImagen(listImage) {
+
+    if(listImage.length > 0)
+     {
+       debugger;
+        var files =listImage;
+        this.listImage = files;
+
+         for (var i = 0, f; f = files[i]; i++) {
+
+          // Only process image files.
+          if (!f.type.match('image.*')) {
+            continue;
+          }
+          var reader = new FileReader();
+
+          // Closure to capture the file information.
+          reader.onload = (function(theFile) {
+            return function(e) {
+              // Render thumbnail.
+              var span = document.createElement('span');
+              span.innerHTML = ['<img style="width: 120px;" class="thumb" src="', e.target.result,
+                                '" title="', escape(theFile.name), '"/>'].join('');
+
+              document.getElementById('list').insertBefore(span, null);
+            };
+          })(f);
+
+          // Read in the image file as a data URL.
+          reader.readAsDataURL(f);
+        }
+     }
    }
 }

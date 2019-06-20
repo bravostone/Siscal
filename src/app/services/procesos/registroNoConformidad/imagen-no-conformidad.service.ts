@@ -22,17 +22,22 @@ import { AngularFireStorage } from '@angular/fire/storage';
         };
         // Upload file and metadata to the object
           var uploadTask = storageRef.child('images/' + nombreArchivo).put(file, metadata);
+
+          //this.descargarImagenStorage(nombreArchivo);
       };
 
       public descargarImagenStorage(nombreArchivo) {
+        var result = "";
+        
         // Create a reference to the file we want to download
         var starsRef = this.firebase.storage.ref().child('images/' + nombreArchivo);
     
         // Get the download URL
-        starsRef.getDownloadURL().then(function (url) {
-          // Insert url into an <img> tag to "download"
-          console.log(url);
-          return url;
+       starsRef.getDownloadURL().then(function (url) {
+        console.log(url);
+        return url;
         })
+        //console.log(url);
+        //return result;
       }
   }
