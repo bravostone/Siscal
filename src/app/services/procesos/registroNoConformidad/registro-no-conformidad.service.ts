@@ -47,8 +47,8 @@ export class RegistroNoConformidadService {
       Nro: obj.Nro,
       Observaciones: obj.Observaciones,
       TipoReporte: obj.TipoReporte,
-      TratamientoNoConformidad: obj.TratamientoNoConformidad,
-      ListaImagenes: obj.ListaImagenes,
+      TratamientoNoConformidad: obj.TratamientoNoConformidad//,
+      //ListaImagenes: obj.ListaImagenes,
     });
   }
 

@@ -11,7 +11,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 
       //Subir archivo
       public subirImagenStorage(nombreArchivo: string, datos: any) {
-
+        debugger;
         // Create a root reference
         var storageRef = this.firebase.storage.ref();
         // File or Blob named mountains.jpg

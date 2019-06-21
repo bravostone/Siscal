@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { Router } from "@angular/router";
-import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from "ngx-toastr";
 
-import { Image } from '../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad';
+import { Image } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
-import {ImagenNoConformidadService} from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service'
+import { ImagenNoConformidadService } from "../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service";
 
 @Component({
   selector: "app-formulario-rnc",
@@ -14,7 +14,6 @@ import {ImagenNoConformidadService} from '../../../../services/procesos/registro
   styleUrls: ["./formulario-rnc.component.sass"]
 })
 export class FormularioRncComponent implements OnInit {
-
   rncModel: RegistroNoConformidad = {};
   nuevo: boolean = false;
   ListaArea = [
@@ -91,10 +90,9 @@ export class FormularioRncComponent implements OnInit {
   ];
 
   //listURL   : Array<Image>;
-  listImage : Array<any>;
+  listImage: Array<any>;
 
   //listURL = [Image]
-
 
   constructor(
     private service: RegistroNoConformidadService,
@@ -105,140 +103,158 @@ export class FormularioRncComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params["codigoProyecto"];
-    this.rncModel.Nro            = this._activate_route.snapshot.params["codigoRNC"];
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params[
+      "codigoProyecto"
+    ];
+    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
 
     //Si una edición
     if (this.rncModel.Nro != "") {
-        this.nuevo = false;
-        this.service.getRegistro(this.rncModel).then(
-          result => {
-                      this.rncModel     = result[0].payload.doc.data();
-                      this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
-                      
-                      debugger;
-                      let lista = this.DescargarImagen(this.rncModel.ListaImagenes);
-                      debugger;
-                      //this.CargarImagen(lista);
-
-                    });
-      
-}
-    //si es nuevo 
+      this.nuevo = false;
+      this.service.getRegistro(this.rncModel).then(result => {
+        this.rncModel = result[0].payload.doc.data();
+        this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
+        this.rncModel.FechaEmision = result[0].payload.doc
+          .data()
+          .FechaEmision.toDate();
+        //console.log(this.rncModel);
+        //console.log(result[0].payload.doc.data());
+        //debugger;
+        //let lista = this.DescargarImagen(this.rncModel.ListaImagenes);
+        //debugger;
+        //this.CargarImagen(lista);
+      });
+    }
+    //si es nuevo
     else {
       this.nuevo = true;
     }
   }
 
+  Retornar() {
+    this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
+  }
+
   Grabar(rncModel) {
-     if (this.nuevo) {
+    if (this.nuevo) {
       debugger;
-       //Subimos las imagenes
+      //Subimos las imagenes
       this.SubirImagen(this.listImage);
-      //Seteamos número.
+            //Seteamos número.
       this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
       //Seteamos ListaImagenes.
-      this.rncModel.ListaImagenes = this.listImage;
+      //this.rncModel.ListaImagenes = this.listImage;
       //Llamamos al método guardar.
-      this.service.createRNC(this.rncModel).then(result => {});
-     }
-     else {
-      this.service.editRNC(this.rncModel).then(result => {});
-     }
+      this.service.createRNC(this.rncModel).then(result => {
+        debugger;
+        console.log(result);
+        //result._key.path.segments[1] aca devuelve el key
+      });
+    } else {
+      debugger;
+      this.SubirImagen(this.listImage);
+      this.service.editRNC(this.rncModel).then(result => {
+        console.log(this.rncModel);
+        console.log(result);
+      });
+    }
 
-    this.toastr.success('Registro exitoso','Mantenimiento exitoso.');
+    this.toastr.success("Registro exitoso", "Mantenimiento exitoso.");
     this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
-
-
   }
 
   SeleccionarImagen(event) {
+    debugger;
+    if (event.target.files.length > 0) {
+      var files = event.target.files;
+      this.listImage = files;
 
-    if(event.target.files.length > 0)
-     {
-        var files = event.target.files;
-        this.listImage = files;
-
-         for (var i = 0, f; f = files[i]; i++) {
-
-          // Only process image files.
-          if (!f.type.match('image.*')) {
-            continue;
-          }
-          var reader = new FileReader();
-
-          // Closure to capture the file information.
-          reader.onload = (function(theFile) {
-            return function(e) {
-              // Render thumbnail.
-              var span = document.createElement('span');
-              span.innerHTML = ['<img style="width: 120px;" class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-
-              document.getElementById('list').insertBefore(span, null);
-            };
-          })(f);
-
-          // Read in the image file as a data URL.
-          reader.readAsDataURL(f);
+      for (var i = 0, f; (f = files[i]); i++) {
+        // Only process image files.
+        if (!f.type.match("image.*")) {
+          continue;
         }
-     }
-   }
+        var reader = new FileReader();
 
-   SubirImagen(listImage){
-      for (let index = 0; index < listImage.length; index++) {
-        this.firebaseStorage.subirImagenStorage(listImage[index].name, listImage[index]);
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            // Render thumbnail.
+            var span = document.createElement("span");
+            span.innerHTML = [
+              '<img style="width: 120px;" class="thumb" src="',
+              e.target.result,
+              '" title="',
+              escape(theFile.name),
+              '"/>'
+            ].join("");
+
+            document.getElementById("list").insertBefore(span, null);
+          };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
       }
-   }
+    }
+  }
 
-   DescargarImagen(listImage){
-      
-    let listURL   : Array<string>
+  SubirImagen(listImage) {
+    debugger;
+    for (let index = 0; index < listImage.length; index++) {
+      debugger;
+      console.log(listImage[index]);
+      // this.firebaseStorage.subirImagenStorage(
+      //   listImage[index].name,
+      //   listImage[index]
+      // );
+    }
+  }
 
-      for (let index = 0; index < listImage.length; index++) {
-        
-        let url = this.firebaseStorage.descargarImagenStorage(listImage[index].name);
-        // debugger;
-        
-        //listURL.push(url);
-      }
-     
-      return listURL;
-    
-   }
+  DescargarImagen(listImage) {
+    let listURL: Array<string>;
 
-   CargarImagen(listImage) {
+    for (let index = 0; index < listImage.length; index++) {
+      let url = this.firebaseStorage.descargarImagenStorage(
+        listImage[index].name
+      );
+    }
+    return listURL;
+  }
 
-    if(listImage.length > 0)
-     {
-       debugger;
-        var files =listImage;
-        this.listImage = files;
+  CargarImagen(listImage) {
+    if (listImage.length > 0) {
+      debugger;
+      var files = listImage;
+      this.listImage = files;
 
-         for (var i = 0, f; f = files[i]; i++) {
-
-          // Only process image files.
-          if (!f.type.match('image.*')) {
-            continue;
-          }
-          var reader = new FileReader();
-
-          // Closure to capture the file information.
-          reader.onload = (function(theFile) {
-            return function(e) {
-              // Render thumbnail.
-              var span = document.createElement('span');
-              span.innerHTML = ['<img style="width: 120px;" class="thumb" src="', e.target.result,
-                                '" title="', escape(theFile.name), '"/>'].join('');
-
-              document.getElementById('list').insertBefore(span, null);
-            };
-          })(f);
-
-          // Read in the image file as a data URL.
-          reader.readAsDataURL(f);
+      for (var i = 0, f; (f = files[i]); i++) {
+        // Only process image files.
+        if (!f.type.match("image.*")) {
+          continue;
         }
-     }
-   }
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function(theFile) {
+          return function(e) {
+            // Render thumbnail.
+            var span = document.createElement("span");
+            span.innerHTML = [
+              '<img style="width: 120px;" class="thumb" src="',
+              e.target.result,
+              '" title="',
+              escape(theFile.name),
+              '"/>'
+            ].join("");
+
+            document.getElementById("list").insertBefore(span, null);
+          };
+        })(f);
+
+        // Read in the image file as a data URL.
+        reader.readAsDataURL(f);
+      }
+    }
+  }
 }

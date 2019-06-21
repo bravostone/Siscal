@@ -1,109 +1,113 @@
 <app-navbar-menu></app-navbar-menu>
 <br />
 <div class="animated fadeIn" style="padding-left: 10px;padding-right: 15px;height: auto">
-  <div class="row">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header">
-          <strong>Registrar Nuevo RNC</strong>
-        </div>
-        <div class="card-body">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="name">Aréa</label>
-                <select [(ngModel)]="rncModel.Area" class="form-control" id="ccarea">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Registrar Nuevo RNC</strong>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="name">Aréa</label>
+                                <select [(ngModel)]="rncModel.Area" class="form-control" id="ccarea">
                   <option *ngFor="let area of ListaArea" [value]="area">{{ area }}</option>
                 </select>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="ccnumber">Defecto</label>
-                <select [(ngModel)]="rncModel.Defecto" class="form-control" id="ccdefecto">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="ccnumber">Defecto</label>
+                                <select [(ngModel)]="rncModel.Defecto" class="form-control" id="ccdefecto">
                   <option *ngFor="let defecto of ListaDefecto" [value]="defecto">{{ defecto }}</option>
                 </select>
-              </div>
-            </div>
-          </div><!--/.row-->
-          <div class="row">
-            <div class="col-sm-6">
-              <label for="ccyear">Ejecutor</label>
-              <select [(ngModel)]="rncModel.EjecutorDanio" class="form-control" id="ccdanio">
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.row-->
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="ccyear">Ejecutor</label>
+                            <select [(ngModel)]="rncModel.EjecutorDanio" class="form-control" id="ccdanio">
                 <option *ngFor="let ejecutor of ListaEjecutorDanio" [value]="ejecutor">{{ ejecutor }}</option>
               </select>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label for="status">Status</label>
-                <select [(ngModel)]="rncModel.Estatus" class="form-control" id="ccstatus">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="status">Status</label>
+                                <select [(ngModel)]="rncModel.Estatus" class="form-control" id="ccstatus">
                   <option *ngFor="let estatus of ListaStatus" [value]="estatus">{{ estatus }}</option>
                 </select>
-              </div>
-            </div>
-          </div><!--/.row-->
-          <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="ccdescripcion">Descripción</label>
-              <input [(ngModel)]="rncModel.Descripcion" type="text" class="form-control" id="txtdescripcion">
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="ccfecha">Fecha de Emisión</label>
-                <div class="form-group">
-                  <input matInput id="txtFecha" [matDatepicker]="picker" [(ngModel)]="rncModel.FechaEmision" class="form-control" style="border: 1px solid #ced4da; width: 80%">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="cchoras">Horas de Trabajo</label>
-              <input [(ngModel)]="rncModel.HHTrabajo" type="text" class="form-control" id="txthoras">
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="ccdescripcion">Nombre Originador</label>
-              <select [(ngModel)]="rncModel.NombreOriginador" class="form-control" id="ccoriginador">
+                            </div>
+                        </div>
+                    </div>
+                    <!--/.row-->
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="ccdescripcion">Descripción</label>
+                            <input [(ngModel)]="rncModel.Descripcion" type="text" class="form-control" id="txtdescripcion">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="ccfecha">Fecha de Emisión</label>
+                            <div class="form-group">
+                                <input matInput id="txtFecha" [matDatepicker]="picker" [(ngModel)]="rncModel.FechaEmision" class="form-control" style="border: 1px solid #ced4da; width: 80%">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="cchoras">Horas de Trabajo</label>
+                            <input [(ngModel)]="rncModel.HHTrabajo" type="text" class="form-control" id="txthoras">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="ccdescripcion">Nombre Originador</label>
+                            <select [(ngModel)]="rncModel.NombreOriginador" class="form-control" id="ccoriginador">
                 <option *ngFor="let originador of ListaNombreOriginador" [value]="originador">
                   {{ originador }}</option>
               </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-6">
-              <label for="cchoras">Tipo de Reporte</label>
-              <select [(ngModel)]="rncModel.TipoReporte" class="form-control" id="cctipoReporte">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-6">
+                            <label for="cchoras">Tipo de Reporte</label>
+                            <select [(ngModel)]="rncModel.TipoReporte" class="form-control" id="cctipoReporte">
                 <option *ngFor="let tipoReporte of ListaTipoReporte" [value]="tipoReporte.codigo">
                   {{ tipoReporte.descripcion }}</option>
               </select>
-            </div>
-            <div class="form-group col-sm-6">
-              <label for="ccdescripcion">Nombre Originador</label>
-              <select [(ngModel)]="rncModel.TratamientoNoConformidad" class="form-control" id="ccTratamiento">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="ccdescripcion">Nombre Originador</label>
+                            <select [(ngModel)]="rncModel.TratamientoNoConformidad" class="form-control" id="ccTratamiento">
                 <option *ngFor="let tratamiento of ListaTratamientoNoConformidad" [value]="tratamiento">
                   {{ tratamiento }}</option>
               </select>
-            </div>
-          </div>
-          <div class="row">
-              <div class="form-group col-sm-12">
-                <label for="ccobservaciones">Observaciones</label>
-                 <textarea [(ngModel)]="rncModel.Observaciones" id="textobservacion" name="textarea-input" class="form-control"></textarea>
-              </div>
-          </div>
-          <div class="form-group row">
-              <div class="col-md-9">
-                <input type="file" id="files" name="files[]" accept="image/*" capture="camera" multiple (change)="SeleccionarImagen($event)"/>
-                <output id="list"></output>
-              </div>
-          </div>
-          <div class="example-button-row">
-              <button (click)="Grabar(rncModel)" mat-raised-button color="warn">Guardar</button>
-              <button mat-raised-button>Cancelar</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <label for="ccobservaciones">Observaciones</label>
+                            <textarea [(ngModel)]="rncModel.Observaciones" id="textobservacion" name="textarea-input" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-9">
+                            <input type="file" id="files" name="files[]" accept="image/*" capture="camera" multiple (change)="SeleccionarImagen($event)" />
+                            <output id="list"></output>
+                        </div>
+                    </div>
+                    <div class="example-button-row">
+                        <button (click)="Grabar(rncModel)" mat-raised-button color="warn">Guardar</button>
+                        <button (click)="Retornar()" mat-raised-button>Cancelar</button>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
-    </div><!--/.col-->
-  </div><!--/.row-->
+        <!--/.col-->
+    </div>
+    <!--/.row-->
 
 </div>
