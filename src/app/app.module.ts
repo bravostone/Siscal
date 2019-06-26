@@ -23,8 +23,9 @@ import { CapturarFotoComponent } from './components/examples/capturar-foto/captu
 import { CapturaDinamicaComponent } from './components/examples/captura-dinamica/captura-dinamica.component'
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common'
 
-//Diseño de TOASTR
+// Diseño de TOASTR
 import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -55,6 +56,7 @@ import { ToastrModule } from 'ngx-toastr';
   providers: [
     FirebaseService,
     AppRoutingModule,
+    DatePipe,
     [{ provide: FirestoreSettingsToken, useValue: {}}]
   ],
   bootstrap: [AppComponent],

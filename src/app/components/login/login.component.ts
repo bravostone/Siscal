@@ -12,11 +12,10 @@ import {MatDialog} from '@angular/material';
 export class LoginComponent implements OnInit {
   hide = true;
   items: Array<any>;
-  loginModel : Login = {};
-  session : Session = {};
+  loginModel: Login = {};
+  session: Session = {};
 
-  constructor
-  (
+  constructor(
     public Login:LoginService,
     private router: Router,
     public dialog: MatDialog
@@ -25,12 +24,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  login(){
+  login() {
     this.Login.validateUser(this.loginModel)
     .then(result => {
       this.items = result;
-     
-      if(this.items.length > 0){
+      if (this.items.length > 0) {
 
       this.session.nombreCompleto     = this.items[0].payload.doc.data().Nombres + " " + this.items[0].payload.doc.data().Apellidos;
       this.session.alias              = this.items[0].payload.doc.data().Alias;
@@ -39,13 +37,12 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('objUsuario', JSON.stringify(this.session));
 
       this.router.navigate(['/lista-proyectos']);
+      } else{
+        this.openDialog();
       }
-      else{
-        this.openDialog()
-      }
-    })
+    });
   }
-  openDialog(){
+  openDialog() {
     this.dialog.open(DialogContent);
   }
 }

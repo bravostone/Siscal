@@ -17,7 +17,11 @@
                     <mat-icon matSuffix>person</mat-icon>
                 </mat-form-field>
                 <mat-form-field class="justifier">
-                    <input matInput class="form-input" [(ngModel)]="loginModel.contrasena" name="contrasena" placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
+                    <input matInput class="form-input" 
+                          [(ngModel)]="loginModel.contrasena" 
+                          (keyup.enter)="login(loginModel)"
+                          id="contrasena" name="contrasena" 
+                          placeholder="Contraseña" [type]="hide ? 'password' : 'text'">
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
             </div>

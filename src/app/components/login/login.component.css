@@ -83,8 +83,9 @@
 /** form footer **/
 
 .form-footer {
-    padding: 24px;
-    margin-left: 170px;
+    /* padding: 24px; */
+    margin-left: 150px;
+    margin-right: 150px;
     justify-content: center;
     align-items: center;
 }

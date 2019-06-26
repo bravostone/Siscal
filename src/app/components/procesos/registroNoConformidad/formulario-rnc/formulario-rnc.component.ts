@@ -1,17 +1,25 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { Router } from "@angular/router";
-import { ToastrService } from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { DatePipe } from '@angular/common';
 
 import { Image } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import { RegistroNoConformidadService } from "../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service";
 import { RegistroNoConformidad } from "../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad";
 import { ImagenNoConformidadService } from "../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service";
 
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
 @Component({
   selector: "app-formulario-rnc",
   templateUrl: "./formulario-rnc.component.html",
-  styleUrls: ["./formulario-rnc.component.sass"]
+  styleUrls: ["./formulario-rnc.component.sass"],
+  providers: [
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ],
 })
 export class FormularioRncComponent implements OnInit {
   rncModel: RegistroNoConformidad = {};
@@ -99,46 +107,45 @@ export class FormularioRncComponent implements OnInit {
     private _activate_route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private firebaseStorage: ImagenNoConformidadService
+    private firebaseStorage: ImagenNoConformidadService,
+    public datepipe: DatePipe,
+    private adapter: DateAdapter<any>
   ) {}
 
   ngOnInit() {
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params[
-      "codigoProyecto"
-    ];
-    this.rncModel.Nro = this._activate_route.snapshot.params["codigoRNC"];
+    this.adapter.setLocale('es');
+    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params['codigoProyecto'];
+    this.rncModel.Nro            = this._activate_route.snapshot.params['codigoRNC'];
 
-    //Si una edición
-    if (this.rncModel.Nro != "") {
+    // Si una edición
+    if (this.rncModel.Nro !== '') {
       this.nuevo = false;
       this.service.getRegistro(this.rncModel).then(result => {
         this.rncModel = result[0].payload.doc.data();
         this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
-        this.rncModel.FechaEmision = result[0].payload.doc
-          .data()
-          .FechaEmision.toDate();
-        //console.log(this.rncModel);
-        //console.log(result[0].payload.doc.data());
-        //debugger;
-        //let lista = this.DescargarImagen(this.rncModel.ListaImagenes);
-        //debugger;
-        //this.CargarImagen(lista);
+        this.rncModel.FechaEmision = result[0].payload.doc.data().FechaEmision.toDate();
+
+
+        // const fecha = this.datepipe.transform(result[0].payload.doc.data().FechaEmision.toDate(), 'dd-MM-yyyy');
+        // this.rncModel.FechaEmision = new Date(fecha);
+
+        // console.log(this.rncModel);
+        // console.log(result[0].payload.doc.data());
+        // let lista = this.DescargarImagen(this.rncModel.ListaImagenes);
+        // this.CargarImagen(lista);
       });
-    }
-    //si es nuevo
-    else {
+    } else {
       this.nuevo = true;
     }
   }
 
   Retornar() {
-    this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
+    this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
   }
 
   Grabar(rncModel) {
     if (this.nuevo) {
-      debugger;
-      //Subimos las imagenes
+      // Subimos las imagenes
       this.SubirImagen(this.listImage);
             //Seteamos número.
       this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
