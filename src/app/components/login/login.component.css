@@ -1,8 +1,15 @@
-body {
+/* body {
     font-family: 'Roboto', sans-serif;
     margin: 0px !important;
     overflow: hidden;
     background: #f8f8f8 !important;
+} */
+
+.botonLogin {
+    background-color: #ff4500;
+    color: #eee;
+    margin: 20px 0;
+    width: 115px
 }
 
 .add-btn {
@@ -17,7 +24,7 @@ body {
 .form-wraper {
     width: 100%;
     margin-top: 10%;
-    background: #f8f8f8;
+    /* background: #f8f8f8; */
 }
 
 .form-container {
@@ -39,9 +46,10 @@ body {
 
 .form-header {
     padding: 24px 0;
-    background: #f44336;
+    background: #304269;
     color: white;
-    text-align: center
+    text-align: center;
+    margin-bottom: 20px
 }
 
 .form-title {
@@ -76,7 +84,7 @@ body {
 
 .form-footer {
     padding: 24px;
-    margin-left: 125px;
+    margin-left: 170px;
     justify-content: center;
     align-items: center;
 }

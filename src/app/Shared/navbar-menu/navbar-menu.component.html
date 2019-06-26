@@ -1,10 +1,17 @@
-<mat-toolbar color="warn" class="navbar">
-    <div>Siscal</div>
+<mat-toolbar class="navbar">
+    <nav class="navbar navbar-dark">
+        <button class="navbar-toggler" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <span>SISCAL</span>
+    </nav>
     <div>
-        <span [routerLink]="['/captura-dinamica']">FD</span>
-        <span [routerLink]="['/captura-foto']">FE</span>
         <span [routerLink]="['/lista-proyectos']">Proyectos</span>
-        <span>About</span>
-        <span [routerLink]="['/login']">Logout</span>
+        <span><i class="material-icons">
+                account_circle
+                </i></span>
+        <span [routerLink]="['/login']"><i class="material-icons">
+            exit_to_app
+            </i></span>
     </div>
 </mat-toolbar>

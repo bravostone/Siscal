@@ -1,7 +1,7 @@
 <app-navbar-menu></app-navbar-menu>
 <br>
 <div class="container-fluid" style="height: 530px">
-        <mat-card-title>Bandeja de Registros de No Conformidad</mat-card-title><br>
+    <mat-card-title>Bandeja de Registros de No Conformidad</mat-card-title><br>
     <div class="search-div">
         <mat-form-field class="search-form-field" floatLabel="never">
             <input matInput [(ngModel)]="searchKey" placeholder="Buscar" autocomplete="off" (keyup)="applyFilter()">
@@ -86,6 +86,8 @@
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>
 </div>
-<button mat-fab color="warn" class="buttonFlotante" (click)="nuevoRnc()">
-    <i class="material-icons">add</i>
-</button>
+<div>
+    <button mat-fab color="primary" class="buttonFlotante" (click)="nuevoRnc()">
+            <i class="material-icons">add</i>
+        </button>
+</div>
