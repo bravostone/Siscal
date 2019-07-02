@@ -148,7 +148,7 @@ export class FormularioRncComponent implements OnInit {
     this.rncModel.FechaEmision=rncModel.FechaEmision._d
     if (this.nuevo) {
       // Subimos las imagenes
-      this.SubirImagen(this.listImage);
+      // this.SubirImagen(this.listImage);
             //Seteamos número.
       this.rncModel.Nro = this.rncModel.CodigoProyecto + " - " + this.rncModel.TipoReporte + " - " + this.rncModel.NombreOriginador + " - " + this.rncModel.HHTrabajo;
       //Seteamos ListaImagenes.
@@ -160,20 +160,11 @@ export class FormularioRncComponent implements OnInit {
         //result._key.path.segments[1] aca devuelve el key
       });
     } else {
-      debugger;
-      this.SubirImagen(this.listImage);
-      this.service.editRNC(this.rncModel).then(result => {
-        console.log(this.rncModel);
-        console.log(result);
-      });
+      this.toastr.success('Ha ocurrido un error, comuniquese con el administrador del sistema', 'Advertencia');
     }
-
-    this.toastr.success("Registro exitoso", "Mantenimiento exitoso.");
-    this.router.navigate(["/listado-rnc", this.rncModel.CodigoProyecto]);
   }
 
   SeleccionarImagen(event) {
-    debugger;
     if (event.target.files.length > 0) {
       var files = event.target.files;
       this.listImage = files;
@@ -208,62 +199,64 @@ export class FormularioRncComponent implements OnInit {
     }
   }
 
-  SubirImagen(listImage) {
-    debugger;
-    for (let index = 0; index < listImage.length; index++) {
-      debugger;
-      console.log(listImage[index]);
-      // this.firebaseStorage.subirImagenStorage(
-      //   listImage[index].name,
-      //   listImage[index]
-      // );
-    }
+  SubirImagenBytes(listImage){
+    this.firebaseStorage.guardarImagenByte(listImage);
   }
 
-  DescargarImagen(listImage) {
-    let listURL: Array<string>;
+  // SubirImagen(listImage) {
+  //   for (let index = 0; index < listImage.length; index++) {
+  //     debugger;
+  //     console.log(listImage[index]);
+  //     // this.firebaseStorage.subirImagenStorage(
+  //     //   listImage[index].name,
+  //     //   listImage[index]
+  //     // );
+  //   }
+  // }
 
-    for (let index = 0; index < listImage.length; index++) {
-      let url = this.firebaseStorage.descargarImagenStorage(
-        listImage[index].name
-      );
-    }
-    return listURL;
-  }
+  // DescargarImagen(listImage) {
+  //   let listURL: Array<string>;
 
-  CargarImagen(listImage) {
-    if (listImage.length > 0) {
-      debugger;
-      var files = listImage;
-      this.listImage = files;
+  //   for (let index = 0; index < listImage.length; index++) {
+  //     let url = this.firebaseStorage.descargarImagenStorage(
+  //       listImage[index].name
+  //     );
+  //   }
+  //   return listURL;
+  // }
 
-      for (var i = 0, f; (f = files[i]); i++) {
-        // Only process image files.
-        if (!f.type.match("image.*")) {
-          continue;
-        }
-        var reader = new FileReader();
+  // CargarImagen(listImage) {
+  //   if (listImage.length > 0) {
+  //     var files = listImage;
+  //     this.listImage = files;
 
-        // Closure to capture the file information.
-        reader.onload = (function(theFile) {
-          return function(e) {
-            // Render thumbnail.
-            var span = document.createElement("span");
-            span.innerHTML = [
-              '<img style="width: 120px;" class="thumb" src="',
-              e.target.result,
-              '" title="',
-              escape(theFile.name),
-              '"/>'
-            ].join("");
+  //     for (var i = 0, f; (f = files[i]); i++) {
+  //       // Only process image files.
+  //       if (!f.type.match("image.*")) {
+  //         continue;
+  //       }
+  //       var reader = new FileReader();
 
-            document.getElementById("list").insertBefore(span, null);
-          };
-        })(f);
+  //       // Closure to capture the file information.
+  //       reader.onload = (function(theFile) {
+  //         return function(e) {
+  //           // Render thumbnail.
+  //           var span = document.createElement("span");
+  //           span.innerHTML = [
+  //             '<img style="width: 120px;" class="thumb" src="',
+  //             e.target.result,
+  //             '" title="',
+  //             escape(theFile.name),
+  //             '"/>'
+  //           ].join("");
 
-        // Read in the image file as a data URL.
-        reader.readAsDataURL(f);
-      }
-    }
-  }
+  //           document.getElementById("list").insertBefore(span, null);
+  //         };
+  //       })(f);
+
+  //       // Read in the image file as a data URL.
+  //       reader.readAsDataURL(f);
+  //     }
+  //   }
+  // }
 }
