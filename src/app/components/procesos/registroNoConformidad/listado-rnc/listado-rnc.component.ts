@@ -36,6 +36,7 @@ export class ListadoRncComponent implements OnInit {
   searchKey: string = "";
   
   ngOnInit() {
+    debugger;
     this.rncModel.CodigoProyecto = this.activate_route.snapshot.params["codigoProyecto"];
     this.service.getListado(this.rncModel).then(result => {
       let listaRnc = result.map(item => {

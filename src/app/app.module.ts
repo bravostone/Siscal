@@ -23,7 +23,8 @@ import { CapturarFotoComponent } from './components/examples/capturar-foto/captu
 import { CapturaDinamicaComponent } from './components/examples/captura-dinamica/captura-dinamica.component'
 
 import { ReactiveFormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { HttpModule } from '@angular/http';
 
 // Diseño de TOASTR
 import { ToastrModule } from 'ngx-toastr';
@@ -50,6 +51,7 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpModule,
     ToastrModule.forRoot()
   ],
   entryComponents: [LoginComponent, DialogContent],
