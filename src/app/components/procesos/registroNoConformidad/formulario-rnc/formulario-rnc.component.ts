@@ -144,6 +144,8 @@ export class FormularioRncComponent implements OnInit {
   }
 
   Grabar(rncModel) {
+    debugger;
+    this.rncModel.FechaEmision=rncModel.FechaEmision._d
     if (this.nuevo) {
       // Subimos las imagenes
       this.SubirImagen(this.listImage);
