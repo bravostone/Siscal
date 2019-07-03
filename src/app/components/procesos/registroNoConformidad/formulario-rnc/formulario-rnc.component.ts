@@ -145,10 +145,11 @@ export class FormularioRncComponent implements OnInit {
 
   Grabar(rncModel) {
     debugger;
+    this.rncModel.FechaEmision=rncModel.FechaEmision._d
     if (this.listImage.length > 0) {
       if (this.nuevo) {
         // Subimos las imagenes servicio para guaradar en bytes
-        this.SubirImagenBytes(this.listImage);
+        //this.SubirImagenBytes(this.listImage);
         // Seteamos número.
         this.rncModel.Nro = this.rncModel.CodigoProyecto + ' - ' + this.rncModel.TipoReporte + ' - ' + this.rncModel.NombreOriginador + ' - ' + this.rncModel.HHTrabajo;
         // Llamamos al método guardar.
