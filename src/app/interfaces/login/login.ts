@@ -1,10 +1,10 @@
 export interface Login {
-    usuario    ?: string,
-    contrasena ?: string,
+    usuario    ?: string;
+    contrasena ?: string;
 }
 
 export interface Session {
-    alias              ?: string,
-    nombreCompleto     ?: string,
-    fechaInicioSession ?: Date,
+    alias              ?: string;
+    nombreCompleto     ?: string;
+    fechaInicioSession ?: Date;
 }
