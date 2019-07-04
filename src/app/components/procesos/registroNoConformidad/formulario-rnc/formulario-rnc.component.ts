@@ -96,8 +96,6 @@ export class FormularioRncComponent implements OnInit {
     'A.R Acabados Construcción EIRL',
     'AB7 S.A.C.'
   ];
-
-  // listImage: Array<any>;
   ListaFotos: Fotos[] = [];
 
   constructor(
@@ -121,7 +119,9 @@ export class FormularioRncComponent implements OnInit {
       this.service.getRegistro(this.rncModel).then(result => {
         this.rncModel = result[0].payload.doc.data();
         this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
-        this.rncModel.FechaEmision = result[0].payload.doc.data().FechaEmision.toDate();
+        this.rncModel.FechaEmision = result[0].payload.doc
+          .data()
+          .FechaEmision.toDate();
       });
     } else {
       this.nuevo = true;
@@ -134,58 +134,43 @@ export class FormularioRncComponent implements OnInit {
 
   Grabar(rncModel) {
     debugger;
-<<<<<<< HEAD
 
     if (this.ListaFotos.length === 0) {
       this.toastr.warning('Debe tener al menos una foto.', 'Advertencia');
       return;
     }
-
     this.rncModel.FechaEmision = rncModel.FechaEmision._d;
+
     if (this.nuevo) {
-      // Subimos las imagenes
-      // this.SubirImagen(this.listImage);
+      // Subimos las imagenes servicio para guaradar en bytes
+      // this.SubirImagenBytes(this.listImage);
       // Seteamos número.
-      this.rncModel.Nro = this.rncModel.CodigoProyecto + ' - ' + this.rncModel.TipoReporte + ' - ' + this.rncModel.NombreOriginador + ' - ' + this.rncModel.HHTrabajo;
-      // Seteamos ListaImagenes.
-      // this.rncModel.ListaImagenes = this.listImage;
+      this.rncModel.Nro =
+        this.rncModel.CodigoProyecto +
+        ' - ' +
+        this.rncModel.TipoReporte +
+        ' - ' +
+        this.rncModel.NombreOriginador +
+        ' - ' +
+        this.rncModel.HHTrabajo;
       // Llamamos al método guardar.
       this.service.createRNC(this.rncModel).then(result => {
-        debugger;
-        console.log(result);
         // result._key.path.segments[1] aca devuelve el key
+        this.toastr.success('Registro creado exitosamente', 'Mantenimiento exitoso.');
+        this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
       });
-=======
-    this.rncModel.FechaEmision=rncModel.FechaEmision._d
-    if (this.listImage.length > 0) {
-      if (this.nuevo) {
-        // Subimos las imagenes servicio para guaradar en bytes
-        //this.SubirImagenBytes(this.listImage);
-        // Seteamos número.
-        this.rncModel.Nro = this.rncModel.CodigoProyecto + ' - ' + this.rncModel.TipoReporte + ' - ' + this.rncModel.NombreOriginador + ' - ' + this.rncModel.HHTrabajo;
-        // Llamamos al método guardar.
-        this.service.createRNC(this.rncModel).then(result => {
-          // result._key.path.segments[1] aca devuelve el key
-          this.toastr.success('Registro exitoso', 'Mantenimiento exitoso.');
-          this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
-        });
-      } else {
-        this.SubirImagenBytes(this.listImage);
-        this.service.editRNC(this.rncModel).then(result => {
-          this.toastr.success('Registro exitoso', 'Mantenimiento exitoso.');
-          this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
-        });
-      }
->>>>>>> b79268815475cd50829fa8ba7d5d07c92a661a5f
     } else {
-      this.toastr.success('Ha ocurrido un error, comuniquese con el administrador del sistema', 'Advertencia');
+      // this.SubirImagenBytes(this.listImage);
+      this.service.editRNC(this.rncModel).then(result => {
+        this.toastr.success('Registro modificado exitosamente', 'Mantenimiento exitoso.');
+        this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
+      });
     }
   }
 
   SeleccionarImagen(event) {
     if (event.target.files.length > 0) {
       var files = event.target.files;
-      //this.listImage = files;
       let objFotos: Fotos = {};
       objFotos.ExtensionImagen = files[0].type.split('/')[1];
       objFotos.NombreImagen = files[0].name.split('.' + objFotos.ExtensionImagen)[0];
@@ -203,7 +188,7 @@ export class FormularioRncComponent implements OnInit {
             // Render thumbnail.
             const span = document.createElement('span');
             objFotos.Imagen = e.target.result.split('base64,')[1];
-            
+
             span.innerHTML = [
               '<img style="width: 120px;" class="thumb" src="',
               e.target.result,
@@ -222,9 +207,9 @@ export class FormularioRncComponent implements OnInit {
     }
   }
 
-  SubirImagenBytes(listImage) {
-    this.firebaseStorage.guardarImagenByte(listImage);
-  }
+  // SubirImagenBytes(listImage) {
+  //   this.firebaseStorage.guardarImagenByte(listImage);
+  // }
 
   // SubirImagen(listImage) {
   //   for (let index = 0; index < listImage.length; index++) {
