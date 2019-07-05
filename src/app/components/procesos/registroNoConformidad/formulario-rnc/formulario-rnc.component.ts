@@ -7,19 +7,31 @@ import { DatePipe } from '@angular/common';
 import { Fotos } from '../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad';
 import { RegistroNoConformidadService } from '../../../../services/procesos/registroNoConformidad/registro-no-conformidad.service';
 import { RegistroNoConformidad } from '../../../../interfaces/procesos/registroNoConformidad/registro-no-conformidad';
-import { ImagenNoConformidadService } from '../../../../services/procesos/registroNoConformidad/imagen-no-conformidad.service';
+import { FotosNoConformidadService } from '../../../../services/procesos/registroNoConformidad/fotos-no-conformidad.service';
 
-import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter
+} from '@angular/material-moment-adapter';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE
+} from '@angular/material/core';
+import { FooterRowOutlet } from '@angular/cdk/table';
 
 @Component({
   selector: 'app-formulario-rnc',
   templateUrl: './formulario-rnc.component.html',
   styleUrls: ['./formulario-rnc.component.sass'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
-    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
-  ],
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE]
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS }
+  ]
 })
 export class FormularioRncComponent implements OnInit {
   rncModel: RegistroNoConformidad = {};
@@ -103,7 +115,7 @@ export class FormularioRncComponent implements OnInit {
     private _activate_route: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
-    private firebaseStorage: ImagenNoConformidadService,
+    private fotosService: FotosNoConformidadService,
     public datepipe: DatePipe,
     private adapter: DateAdapter<any>
   ) {}
@@ -111,7 +123,7 @@ export class FormularioRncComponent implements OnInit {
   ngOnInit() {
     this.adapter.setLocale('es');
     this.rncModel.CodigoProyecto = this._activate_route.snapshot.params['codigoProyecto'];
-    this.rncModel.Nro            = this._activate_route.snapshot.params['codigoRNC'];
+    this.rncModel.Nro = this._activate_route.snapshot.params['codigoRNC'];
 
     // Si una edición
     if (this.rncModel.Nro !== '') {
@@ -133,35 +145,50 @@ export class FormularioRncComponent implements OnInit {
   }
 
   Grabar(rncModel) {
-    debugger;
-
     if (this.ListaFotos.length === 0) {
       this.toastr.warning('Debe tener al menos una foto.', 'Advertencia');
       return;
     }
-    this.rncModel.FechaEmision = rncModel.FechaEmision._d;
+
+    if (rncModel.FechaEmision._d !== undefined) {
+      // Esto pasa cuando la fecha carga pero no la modificas
+      this.rncModel.FechaEmision = rncModel.FechaEmision._d;
+    }
 
     if (this.nuevo) {
-      // Subimos las imagenes servicio para guaradar en bytes
-      // this.SubirImagenBytes(this.listImage);
-      // Seteamos número.
       this.rncModel.Nro =
-        this.rncModel.CodigoProyecto +
-        ' - ' +
-        this.rncModel.TipoReporte +
-        ' - ' +
-        this.rncModel.NombreOriginador +
-        ' - ' +
-        this.rncModel.HHTrabajo;
+      this.rncModel.CodigoProyecto + ' - ' + this.rncModel.TipoReporte + ' - ' + this.rncModel.NombreOriginador + ' - ' + this.rncModel.HHTrabajo;
       // Llamamos al método guardar.
       this.service.createRNC(this.rncModel).then(result => {
         // result._key.path.segments[1] aca devuelve el key
+        // for (let i = 0; this.ListaFotos.length - 1; i++) {
+        //   this.ListaFotos[i].CodigoRnc = result._key.path.segments[1];
+        // }
+        const key = result._key.path.segments[1];
+        this.ListaFotos.forEach(function(element) {
+          element.CodigoRnc = key;
+        });
+
+        // this.fotosService.InsertarFotos(this.ListaFotos).then(result => {
+
+        // });
+
         this.toastr.success('Registro creado exitosamente', 'Mantenimiento exitoso.');
         this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
       });
     } else {
-      // this.SubirImagenBytes(this.listImage);
       this.service.editRNC(this.rncModel).then(result => {
+        const key = this.rncModel.Key;
+        this.ListaFotos.forEach(function(element) {
+          element.CodigoRnc = key;
+        });
+
+        // debugger;
+        // this.fotosService.InsertarFotos(this.ListaFotos).subscribe(data => {
+        //   debugger;
+        //   console.log(data);
+        // });
+
         this.toastr.success('Registro modificado exitosamente', 'Mantenimiento exitoso.');
         this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
       });
@@ -206,65 +233,4 @@ export class FormularioRncComponent implements OnInit {
       }
     }
   }
-
-  // SubirImagenBytes(listImage) {
-  //   this.firebaseStorage.guardarImagenByte(listImage);
-  // }
-
-  // SubirImagen(listImage) {
-  //   for (let index = 0; index < listImage.length; index++) {
-  //     debugger;
-  //     console.log(listImage[index]);
-  //     // this.firebaseStorage.subirImagenStorage(
-  //     //   listImage[index].name,
-  //     //   listImage[index]
-  //     // );
-  //   }
-  // }
-
-  // DescargarImagen(listImage) {
-  //   let listURL: Array<string>;
-
-  //   for (let index = 0; index < listImage.length; index++) {
-  //     let url = this.firebaseStorage.descargarImagenStorage(
-  //       listImage[index].name
-  //     );
-  //   }
-  //   return listURL;
-  // }
-
-  // CargarImagen(listImage) {
-  //   if (listImage.length > 0) {
-  //     var files = listImage;
-  //     this.listImage = files;
-
-  //     for (var i = 0, f; (f = files[i]); i++) {
-  //       // Only process image files.
-  //       if (!f.type.match("image.*")) {
-  //         continue;
-  //       }
-  //       var reader = new FileReader();
-
-  //       // Closure to capture the file information.
-  //       reader.onload = (function(theFile) {
-  //         return function(e) {
-  //           // Render thumbnail.
-  //           var span = document.createElement("span");
-  //           span.innerHTML = [
-  //             '<img style="width: 120px;" class="thumb" src="',
-  //             e.target.result,
-  //             '" title="',
-  //             escape(theFile.name),
-  //             '"/>'
-  //           ].join("");
-
-  //           document.getElementById("list").insertBefore(span, null);
-  //         };
-  //       })(f);
-
-  //       // Read in the image file as a data URL.
-  //       reader.readAsDataURL(f);
-  //     }
-  //   }
-  // }
 }
