@@ -14,8 +14,8 @@ export class ListaProyectosService {
     return new Promise<any>((resolve, reject) => {
       this.db.collection('/Proyecto').snapshotChanges()
       .subscribe(snapshots => {
-        resolve(snapshots)
-      })
-    })
+        resolve(snapshots);
+      });
+    });
   }
 }

@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
-import { AppMaterialModule } from '../app/Shared/app.material.module'
+import { AppMaterialModule } from '../app/Shared/app.material.module';
 import { FirebaseService } from './services/firebase.service';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 // Servicio Fotos
@@ -27,7 +27,8 @@ import { CapturaDinamicaComponent } from './components/examples/captura-dinamica
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import 'rxjs/Rx';
+import 'rxjs';
+import 'rxjs/internal-compatibility';
 // Diseño de TOASTR
 import { ToastrModule } from 'ngx-toastr';
 

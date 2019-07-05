@@ -36,7 +36,6 @@ export class ListadoRncComponent implements OnInit {
   searchKey: string = "";
   
   ngOnInit() {
-    debugger;
     this.rncModel.CodigoProyecto = this.activate_route.snapshot.params["codigoProyecto"];
     this.service.getListado(this.rncModel).then(result => {
       let listaRnc = result.map(item => {
@@ -66,38 +65,7 @@ export class ListadoRncComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
-  nuevoRnc(nroRnc: string = ""){
+  nuevoRnc(nroRnc: string = '') {
     this.router.navigate(['/formulario-rnc', this.rncModel.CodigoProyecto, nroRnc]);
   }
-  // editarRNC(nroRnc: string = ""){
-  //   debugger;
-  //   let lista = this.serviceImage.descargarImagenStorage("29d3ae84-df7c-4e0d-8cfc-2026c44df7ad.jpg");
-
-  //   if(lista !=  null)
-  //   {
-  //     debugger;
-  //      var files = lista;
-      
-  //       for (var i = 0, f; f = files[i]; i++) {
-
-  //        var reader = new FileReader();
-
-  //        // Closure to capture the file information.
-  //        reader.onload = (function(theFile) {
-  //          return function(e) {
-  //            // Render thumbnail.
-  //            var span = document.createElement('span');
-  //            span.innerHTML = ['<img style="width: 120px;" class="thumb" src="', e.target.result,
-  //                              '" title="', escape(theFile.name), '"/>'].join('');
-
-  //            document.getElementById('list').insertBefore(span, null);
-  //          };
-  //        })(f);
-
-  //        // Read in the image file as a data URL.
-  //        reader.readAsDataURL(f);
-  //      }
-  //   }
-
-  // }
 }
