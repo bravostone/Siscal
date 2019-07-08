@@ -30,14 +30,10 @@ export class FotosNoConformidadService {
   InsertarFotos(_listaFotos: Fotos[]) {
     const body = JSON.stringify(_listaFotos);
     const headers = new Headers({
-      'Content-Type': 'application/json'// ,
-      // 'Access-Control-Allow-Origin': '*',
-      // 'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+      'Content-Type': 'application/json'
     });
     return this.http.post(this.InsertURL, body, { headers }).map(res => {
-      debugger;
       return res.json();
     });
-    //return this.http.post(this.InsertURL, body);
   }
 }

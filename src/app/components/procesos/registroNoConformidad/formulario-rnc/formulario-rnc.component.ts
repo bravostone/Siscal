@@ -161,18 +161,13 @@ export class FormularioRncComponent implements OnInit {
       // Llamamos al método guardar.
       this.service.createRNC(this.rncModel).then(result => {
         // result._key.path.segments[1] aca devuelve el key
-        // for (let i = 0; this.ListaFotos.length - 1; i++) {
-        //   this.ListaFotos[i].CodigoRnc = result._key.path.segments[1];
-        // }
+        const key = result._key.path.segments[1];
+        this.ListaFotos.forEach(function(element) {
+          element.CodigoRnc = key;
+        });
 
-        // const key = result._key.path.segments[1];
-        // this.ListaFotos.forEach(function(element) {
-        //   element.CodigoRnc = key;
-        // });
-
-        // this.fotosService.InsertarFotos(this.ListaFotos).then(result => {
-
-        // });
+        this.fotosService.InsertarFotos(this.ListaFotos).subscribe(data => {
+        });
 
         this.toastr.success('Registro creado exitosamente', 'Mantenimiento exitoso.');
         this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
@@ -184,10 +179,8 @@ export class FormularioRncComponent implements OnInit {
           element.CodigoRnc = key;
         });
 
-         this.fotosService.InsertarFotos(this.ListaFotos).subscribe(data => {
-           debugger;
-           console.log(data);
-         });
+        this.fotosService.InsertarFotos(this.ListaFotos).subscribe(data => {
+        });
 
         this.toastr.success('Registro modificado exitosamente', 'Mantenimiento exitoso.');
         this.router.navigate(['/listado-rnc', this.rncModel.CodigoProyecto]);
