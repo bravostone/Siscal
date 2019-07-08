@@ -134,6 +134,30 @@ export class FormularioRncComponent implements OnInit {
         this.rncModel.FechaEmision = result[0].payload.doc
           .data()
           .FechaEmision.toDate();
+
+        this.fotosService.ObtenerFotoPorCodigoRNC(this.rncModel.Key).subscribe(
+            (data) => {
+              // debugger;
+              // console.log(data);
+              this.ListaFotos = JSON.parse(data._body);
+              this.ListaFotos.forEach(function(element: Fotos) {
+                debugger;
+                const span = document.createElement('span');
+                span.innerHTML = [
+                  '<img style="width: 120px;" class="thumb" src="',
+                  'data:image/' + element.extensionImagen + ';base64,' + element.imagen,
+                  '" title="',
+                  element.nombreImagen,
+                  '"/>'
+                  ].join('');
+
+                document.getElementById('list').insertBefore(span, null);
+              });
+            },
+            (error) => {
+              console.error(error);
+            }
+          );
       });
     } else {
       this.nuevo = true;
@@ -208,7 +232,6 @@ export class FormularioRncComponent implements OnInit {
             // Render thumbnail.
             const span = document.createElement('span');
             objFotos.Imagen = e.target.result.split('base64,')[1];
-
             span.innerHTML = [
               '<img style="width: 120px;" class="thumb" src="',
               e.target.result,

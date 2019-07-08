@@ -13,18 +13,12 @@ export class FotosNoConformidadService {
   InsertURL: string =
     'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/AgregarFotos';
   ObtenerURL: string =
-    'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/ObtenerFotos?codigoRnc=dotnet';
+    'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/ObtenerFotos?codigoRnc=';
   DeleteURL: string =
     'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/EliminarFotos?codigoRnc=dotnet';
 
   ObtenerFotoPorCodigoRNC(codigoRnc: string) {
-    const body = JSON.stringify(codigoRnc);
-    const headers = new Headers({
-      'Content-Type': 'application/json'
-    });
-    return this.http.post(this.ObtenerURL, body, { headers }).map(res => {
-      return res.json();
-    });
+    return this.http.get(this.ObtenerURL + codigoRnc);
   }
 
   InsertarFotos(_listaFotos: Fotos[]) {
