@@ -12,11 +12,11 @@ export class FotosNoConformidadService {
   constructor(private http: HttpClient) {}
 
   InsertURL: string =
-    'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/AgregarFotos';
+    'https://gymsolucionesdev-multeros.azurewebsites.net/v1/Imagen/AgregarFotos';
   ObtenerURL: string =
-    'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/ObtenerFotos?codigoRnc=';
+    'https://gymsolucionesdev-multeros.azurewebsites.net/v1/Imagen/ObtenerFotos?codigoRnc=';
   DeleteURL: string =
-    'http://aplicativostest.gym.com.pe/APISiscalDemo/v1/Imagen/EliminarFotos?codigoRnc=dotnet';
+    'https://gymsolucionesdev-multeros.azurewebsites.net/v1/Imagen/EliminarFotos?codigoRnc=dotnet';
 
   // ObtenerFotoPorCodigoRNC(codigoRnc: string) {
   //   return this.http.get(this.ObtenerURL + codigoRnc);
