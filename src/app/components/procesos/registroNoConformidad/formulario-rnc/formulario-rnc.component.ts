@@ -19,6 +19,8 @@ import {
   MAT_DATE_LOCALE
 } from '@angular/material/core';
 import { FooterRowOutlet } from '@angular/cdk/table';
+import { Foto } from 'src/app/interfaces/procesos/Fotos/Fotos';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-formulario-rnc',
@@ -35,7 +37,7 @@ import { FooterRowOutlet } from '@angular/cdk/table';
 })
 export class FormularioRncComponent implements OnInit {
   rncModel: RegistroNoConformidad = {};
-  nuevo: boolean = false;
+  nuevo = false;
   ListaArea = [
     '-- No Describe --',
     'Almacen',
@@ -112,7 +114,7 @@ export class FormularioRncComponent implements OnInit {
 
   constructor(
     private service: RegistroNoConformidadService,
-    private _activate_route: ActivatedRoute,
+    private activateRoute: ActivatedRoute,
     private router: Router,
     private toastr: ToastrService,
     private fotosService: FotosNoConformidadService,
@@ -122,8 +124,8 @@ export class FormularioRncComponent implements OnInit {
 
   ngOnInit() {
     this.adapter.setLocale('es');
-    this.rncModel.CodigoProyecto = this._activate_route.snapshot.params['codigoProyecto'];
-    this.rncModel.Nro = this._activate_route.snapshot.params['codigoRNC'];
+    this.rncModel.CodigoProyecto = this.activateRoute.snapshot.params['codigoProyecto'];
+    this.rncModel.Nro = this.activateRoute.snapshot.params['codigoRNC'];
 
     // Si una edición
     if (this.rncModel.Nro !== '') {
@@ -135,29 +137,27 @@ export class FormularioRncComponent implements OnInit {
           .data()
           .FechaEmision.toDate();
 
-        this.fotosService.ObtenerFotoPorCodigoRNC(this.rncModel.Key).subscribe(
-            (data) => {
-              // debugger;
-              // console.log(data);
-              this.ListaFotos = JSON.parse(data._body);
-              this.ListaFotos.forEach(function(element: Fotos) {
-                debugger;
+        this.ObtenerImagenes(this.rncModel.Key).subscribe(
+          (resultado: any) => {
+            console.log(resultado);
+          // tslint:disable-next-line: only-arrow-functions
+            resultado.forEach(function(element: Fotos) {
                 const span = document.createElement('span');
                 span.innerHTML = [
                   '<img style="width: 120px;" class="thumb" src="',
-                  'data:image/' + element.extensionImagen + ';base64,' + element.imagen,
+                  'data:image/' + element.ExtensionImagen + ';base64,' + element.Imagen,
                   '" title="',
-                  element.nombreImagen,
+                  element.NombreImagen,
                   '"/>'
                   ].join('');
 
                 document.getElementById('list').insertBefore(span, null);
               });
-            },
-            (error) => {
-              console.error(error);
-            }
-          );
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
       });
     } else {
       this.nuevo = true;
@@ -181,13 +181,14 @@ export class FormularioRncComponent implements OnInit {
 
     if (this.nuevo) {
       this.rncModel.Nro =
+      // tslint:disable-next-line: max-line-length
       this.rncModel.CodigoProyecto + ' - ' + this.rncModel.TipoReporte + ' - ' + this.rncModel.NombreOriginador + ' - ' + this.rncModel.HHTrabajo;
       // Llamamos al método guardar.
       this.service.createRNC(this.rncModel).then(result => {
-        // result._key.path.segments[1] aca devuelve el key
-        const key = result._key.path.segments[1];
+        console.log(result);
+        // tslint:disable-next-line: only-arrow-functions
         this.ListaFotos.forEach(function(element) {
-          element.CodigoRnc = key;
+          element.CodigoRnc = result.id;
         });
 
         this.fotosService.InsertarFotos(this.ListaFotos).subscribe(data => {
@@ -199,6 +200,7 @@ export class FormularioRncComponent implements OnInit {
     } else {
       this.service.editRNC(this.rncModel).then(result => {
         const key = this.rncModel.Key;
+        // tslint:disable-next-line: only-arrow-functions
         this.ListaFotos.forEach(function(element) {
           element.CodigoRnc = key;
         });
@@ -214,12 +216,12 @@ export class FormularioRncComponent implements OnInit {
 
   SeleccionarImagen(event) {
     if (event.target.files.length > 0) {
-      var files = event.target.files;
-      let objFotos: Fotos = {};
+      const files = event.target.files;
+      const objFotos: Fotos = {};
       objFotos.ExtensionImagen = files[0].type.split('/')[1];
       objFotos.NombreImagen = files[0].name.split('.' + objFotos.ExtensionImagen)[0];
 
-      for (var i = 0, f; (f = files[i]); i++) {
+      for (let i = 0, f; (f = files[i]); i++) {
         // Only process image files.
         if (!f.type.match('image.*')) {
           continue;
@@ -248,5 +250,9 @@ export class FormularioRncComponent implements OnInit {
         reader.readAsDataURL(f);
       }
     }
+  }
+
+  ObtenerImagenes(codigoRNC: string): Observable<Foto> {
+    return this.fotosService.ObtenerFotoPorCodigoRNC(this.rncModel.Key, Foto.fromAnyListUsuario);
   }
 }

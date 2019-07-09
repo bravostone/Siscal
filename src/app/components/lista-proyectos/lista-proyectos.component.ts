@@ -10,9 +10,9 @@ import {ListaProyectosService} from '../../services/listaProyectos/lista-proyect
 })
 export class ListaProyectosComponent implements OnInit {
   listaProyecto: Array<any>;
-  usuario : [];
+  usuario: [];
 
-  constructor( 
+  constructor(
       private lista: ListaProyectosService,
       private router: Router,
 
@@ -20,20 +20,16 @@ export class ListaProyectosComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = JSON.parse(localStorage.getItem('objUsuario'));
-    console.log(this.usuario);
     this.getListaProyecto();
   }
 
   getListaProyecto(){
     this.lista.getProyectos().then(result => {
       this.listaProyecto = result;
-      console.log(this.listaProyecto)
-    })
+    });
   }
 
   chooseProject(codigoProyecto: string){
-    debugger;
-    console.log(codigoProyecto);
     this.router.navigate(['/listado-rnc', codigoProyecto]);
   }
 

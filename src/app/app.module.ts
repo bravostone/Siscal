@@ -26,9 +26,9 @@ import { CapturaDinamicaComponent } from './components/examples/captura-dinamica
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import 'rxjs';
-import 'rxjs/internal-compatibility';
+// import 'rxjs/internal-compatibility';
 // Diseño de TOASTR
 import { ToastrModule } from 'ngx-toastr';
 
@@ -49,12 +49,12 @@ import { ToastrModule } from 'ngx-toastr';
     AngularFirestoreModule,
     AngularFireStorageModule,
     BrowserModule,
+    HttpClientModule,
     AppMaterialModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
     ToastrModule.forRoot()
   ],
   entryComponents: [LoginComponent, DialogContent],
