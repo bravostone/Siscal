@@ -132,6 +132,7 @@ export class FormularioRncComponent implements OnInit {
       this.nuevo = false;
       this.service.getRegistro(this.rncModel).then(result => {
         this.rncModel = result[0].payload.doc.data();
+        debugger;
         this.rncModel.Key = result[0].payload.doc._key.path.segments[6];
         this.rncModel.FechaEmision = result[0].payload.doc
           .data()
@@ -139,7 +140,7 @@ export class FormularioRncComponent implements OnInit {
 
         this.ObtenerImagenes(this.rncModel.Key).subscribe(
           (resultado: any) => {
-            console.log(resultado);
+            this.ListaFotos = resultado;
           // tslint:disable-next-line: only-arrow-functions
             resultado.forEach(function(element: Fotos) {
                 const span = document.createElement('span');
@@ -178,6 +179,7 @@ export class FormularioRncComponent implements OnInit {
       // Esto pasa cuando la fecha carga pero no la modificas
       this.rncModel.FechaEmision = rncModel.FechaEmision._d;
     }
+    debugger;
 
     if (this.nuevo) {
       this.rncModel.Nro =
